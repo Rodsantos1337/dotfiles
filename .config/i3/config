@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango: GeistMono Nerd Font Mono 11
+font pango: CommitMono Nerd Font Mono 11
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -66,8 +66,8 @@ tiling_drag modifier
 
 # Set inner/outer gaps
 # (ported from the old EndeavourOS config — clean tiling look)
-gaps inner 4
-gaps outer 6
+gaps inner 8
+gaps outer 0
 
 # 1px border, NO title bar (pixel style = border without the title text)
 # focused window border shows the Everforest green (#829181)
@@ -250,7 +250,7 @@ client.urgent               $ever_red   $ever_red   $ever_fg    $ever_red   $eve
 
 # Start i3bar to display a workspace bar (system info via i3blocks)
 bar {
-        font pango: GeistMono Nerd Font Mono 11
+        font pango: CommitMono Nerd Font Mono 11
         status_command i3blocks -c ~/.config/i3/i3blocks.conf
         position bottom
         tray_padding 2

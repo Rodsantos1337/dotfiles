@@ -30,8 +30,8 @@ PACMAN_PKGS=(
   # system UI
   alacritty dunst picom xsettingsd feh flameshot
   network-manager-applet power-profiles-daemon lm_sensors pavucontrol
-  # fonts - GeistMono Nerd Font Mono everywhere
-  otf-geist-mono-nerd inter-font
+  # fonts - CommitMono Nerd Font Mono everywhere
+  otf-commit-mono-nerd inter-font
   # apps
   firefox thunar obsidian zed opencode nano
   # tools

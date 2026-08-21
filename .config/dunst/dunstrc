@@ -27,7 +27,7 @@
     gap_size = 4
 
     ### Font ###
-    font = GeistMono Nerd Font Mono 9.5
+    font = CommitMono Nerd Font Mono 9.5
 
     ### Icons ###
     enable_recursive_icon_lookup = true
