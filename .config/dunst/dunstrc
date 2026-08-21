@@ -44,17 +44,17 @@
 # NB: colors are quoted because dunst 1.13.2's ini parser treats unquoted
 # '#' as an inline comment (regression - see ini.c load_ini_file).
 [urgency_low]
-    background = "#2b3339"
+    background = "#1e2326"
     foreground = "#d3c6aa"
     timeout = 6
 
 [urgency_normal]
-    background = "#2b3339"
+    background = "#1e2326"
     foreground = "#d3c6aa"
     timeout = 8
 
 [urgency_critical]
     background = "#e67e80"
-    foreground = "#2b3339"
+    foreground = "#1e2326"
     frame_color = "#e67e80"
     timeout = 0

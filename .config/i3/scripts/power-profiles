@@ -4,7 +4,7 @@
 # Requires powerprofiles-daemon (extra) + python-gobject for powerprofilesctl.
 set -euo pipefail
 
-theme=(-nb '#2b3339' -nf '#ffffff' -sb '#829181' -sf '#2b3339' -fn 'monospace 11')
+theme=(-nb '#1e2326' -nf '#ffffff' -sb '#829181' -sf '#1e2326' -fn 'monospace 11')
 
 if ! command -v powerprofilesctl >/dev/null 2>&1; then
     printf '%s\n' "power-profiles-daemon not installed (sudo pacman -S power-profiles-daemon)" | \

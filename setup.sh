@@ -29,6 +29,8 @@ PACMAN_PKGS=(
   xorg-server xorg-xinit xorg-xrandr xorg-xinput xorg-xrdb
   # system UI
   alacritty dunst picom xsettingsd feh flameshot
+  # gtk2 theming engine (custom Everforest-Green-Dark-Dim gtk-2.0 needs it)
+  gtk-engine-murrine
   network-manager-applet power-profiles-daemon lm_sensors pavucontrol
   # portals/xdg: screen sharing, file dialogs, open-with handlers
   xdg-desktop-portal xdg-desktop-portal-gtk xdg-utils
@@ -57,9 +59,8 @@ if ! command -v yay >/dev/null 2>&1; then
 fi
 
 # --- 3. AUR packages ---------------------------------------------------------
-# NOTE: no icon theme package - icons stay stock Adwaita (see xsettingsd.conf)
 echo "== [3/7] AUR packages =="
-yay -S --needed brave-bin everforest-gtk-theme-git
+yay -S --needed brave-bin everforest-icon-theme-git
 
 # --- 4. services ---------------------------------------------------------------
 echo "== [4/7] services =="
@@ -75,7 +76,8 @@ fi
 # (e.g. Firefox "System theme - auto") read color-scheme from gsettings
 # and flip to light unless it is set here.
 echo "== [5/7] gsettings =="
-gsettings set org.gnome.desktop.interface gtk-theme 'Everforest-Green-Dark'
+gsettings set org.gnome.desktop.interface icon-theme 'Everforest-Dark'
+gsettings set org.gnome.desktop.interface gtk-theme 'Everforest-Green-Dark-Dim'
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.interface cursor-size 14
 gsettings set org.gnome.desktop.peripherals.mouse accel-profile 'flat'

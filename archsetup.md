@@ -24,11 +24,13 @@ top, and the few things that stay manual. Read once before running
    fonts (GeistMono Nerd Font Mono), tools, portals/xdg for screen sharing
    and file dialogs
 2. Builds yay from AUR, then AUR packages: brave-bin,
-   everforest-gtk-theme-git. **No icon theme package** — icons stay stock
-   Adwaita (see `.config/xsettingsd/xsettingsd.conf`)
+   everforest-icon-theme-git (icons only — the GTK theme is NOT packaged;
+   the custom `Everforest-Green-Dark-Dim` theme is vendored in this repo
+   under `themes/` and symlinked by install.sh)
 3. Services: power-profiles-daemon, ufw; enables `ly@tty1` only if no other
    display manager is active
-4. gsettings theming (GTK theme + color-scheme so portal-aware apps like
+4. gsettings theming (custom `Everforest-Green-Dark-Dim` GTK theme +
+   `Everforest-Dark` icons + color-scheme so portal-aware apps like
    Firefox don't flip to light mode)
 5. Git identity hardcoded (Rodsantos1337) — edit if it changes
 6. `gh auth login -w` browser flow, skipped if already authenticated
@@ -46,8 +48,3 @@ top, and the few things that stay manual. Read once before running
 - Anything machine-specific goes in `~/.config/i3/local` (gitignored via the
   repo's `include ~/.config/i3/local*` line) — e.g. monitor layout:
   `xrandr --output HDMI-0 --pos 0x0 --output DP-0 --primary --pos 1360x0`
-
-## Old-machine cleanup (one-time)
-
-- `sudo pacman -Rns everforest-icon-theme-git` if it was installed before
-  icons moved to Adwaita

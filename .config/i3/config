@@ -81,7 +81,7 @@ bindsym $mod+Return exec --no-startup-id alacritty
 bindsym $mod+q kill
 
 # start dmenu (a program launcher) -- Everforest Dark Hard theme
-bindsym $mod+d exec --no-startup-id dmenu_run -nb '#2b3339' -nf '#ffffff' -sb '#829181' -sf '#ffffff' -fn 'monospace 11'
+bindsym $mod+d exec --no-startup-id dmenu_run -nb '#1e2326' -nf '#ffffff' -sb '#829181' -sf '#ffffff' -fn 'monospace 11'
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -229,8 +229,8 @@ bindsym $mod+r mode "resize"
 # color settings for bar and windows #
 ######################################
 
-# Define colors variables (Everforest Dark Hard):
-set $ever_bg       #2b3339
+# Define colors variables (Everforest Dark Hard, custom darker bg = v2 hard bg_dim):
+set $ever_bg       #1e2326
 set $ever_fg       #d3c6aa
 set $ever_black    #475258
 set $ever_red      #e67e80
@@ -258,12 +258,12 @@ bar {
 
         colors {
                 separator          #475258
-                background         #2b3339
+                background         #1e2326
                 statusline         #d3c6aa
                 #                       border           bg          text
                 focused_workspace       #829181         #829181     #ffffff
-                active_workspace        #2b3339         #2b3339       #BEC5B2
-                inactive_workspace      #2b3339         #2b3339     #ffffff
+                active_workspace        #1e2326         #1e2326       #BEC5B2
+                inactive_workspace      #1e2326         #1e2326     #ffffff
                 urgent_workspace        #e67e80         #e67e80     #ffffff
         }
 }

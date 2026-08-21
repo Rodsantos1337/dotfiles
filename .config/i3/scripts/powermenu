@@ -3,7 +3,7 @@
 # Binds: $mod+Shift+e
 set -euo pipefail
 
-theme=(-nb '#2b3339' -nf '#ffffff' -sb '#829181' -sf '#2b3339' -fn 'monospace 11')
+theme=(-nb '#1e2326' -nf '#ffffff' -sb '#829181' -sf '#1e2326' -fn 'monospace 11')
 
 choice=$(printf '%s\n' Lock Logout Suspend Shutdown Reboot | dmenu "${theme[@]}" -p "Power:") || exit 1
 

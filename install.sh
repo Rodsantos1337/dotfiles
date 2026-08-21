@@ -30,9 +30,13 @@ MAPPINGS=(
   ".config/fontconfig"
   ".config/gtk-3.0/settings.ini"
   ".config/gtk-4.0/settings.ini"
+  ".config/opencode/themes"
+  ".config/opencode/tui.json"
+  ".config/zed"
   ".config/picom"
   ".config/xsettingsd"
   ".config/disable-mouse-accel.sh"
+  "themes/Everforest-Green-Dark-Dim:.local/share/themes/Everforest-Green-Dark-Dim"
 )
 
 link_one() {
