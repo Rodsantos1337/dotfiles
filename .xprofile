@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export XCURSOR_SIZE=14
+[ -f ~/.Xresources ] && xrdb -merge ~/.Xresources

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# powermenu - dmenu power menu (Everforest Dark Hard)
+# Binds: $mod+Shift+e
+set -euo pipefail
+
+theme=(-nb '#2b3339' -nf '#ffffff' -sb '#829181' -sf '#2b3339' -fn 'monospace 11')
+
+choice=$(printf '%s\n' Lock Logout Suspend Shutdown Reboot | dmenu "${theme[@]}" -p "Power:") || exit 1
+
+case "$choice" in
+    Lock)     i3lock ;;
+    Logout)   i3-msg exit ;;
+    Suspend)  systemctl suspend ;;
+    Shutdown) systemctl poweroff ;;
+    Reboot)   systemctl reboot ;;
+esac

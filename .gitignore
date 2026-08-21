@@ -1,0 +1,7 @@
+# Editor/OS junk
+*.swp
+*.tmp
+.DS_Store
+
+# scratch/backup files
+*.bak-*

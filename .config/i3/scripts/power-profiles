@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# power-profiles - dmenu power profile switcher (Everforest Dark Hard)
+# Binds: $mod+Shift+p
+# Requires powerprofiles-daemon (extra) + python-gobject for powerprofilesctl.
+set -euo pipefail
+
+theme=(-nb '#2b3339' -nf '#ffffff' -sb '#829181' -sf '#2b3339' -fn 'monospace 11')
+
+if ! command -v powerprofilesctl >/dev/null 2>&1; then
+    printf '%s\n' "power-profiles-daemon not installed (sudo pacman -S power-profiles-daemon)" | \
+        dmenu "${theme[@]}" -p "Power Profiles:"
+    exit 1
+fi
+
+# Show current with a marker, so the user sees active state.
+current=$(powerprofilesctl get 2>/dev/null || true)
+profiles=$(powerprofilesctl list 2>/dev/null | grep -E '^\s*\*?\s*[a-z]+' | tr -d '* ')
+
+if [[ -z "$profiles" ]]; then
+    printf '%s\n' "No power profiles available" | \
+        dmenu "${theme[@]}" -p "Power Profiles:"
+    exit 1
+fi
+
+choice=$(printf '%s\n' $profiles | dmenu "${theme[@]}" -p "Power Profile (now: $current)") || exit 1
+
+if [[ -n "$choice" ]]; then
+    powerprofilesctl set "$choice"
+fi

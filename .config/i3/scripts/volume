@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Volume block for i3blocks (pactl, no PulseAudio GUI needed)
+# left-click: toggle mute | right-click: pavucontrol | scroll up/down: +-5%
+# Requires: pulseaudio (or pipewire-pulse) + pavucontrol for the mixer
+
+case "$BLOCK_BUTTON" in
+    1) pactl set-sink-mute @DEFAULT_SINK@ toggle ;;
+    3) pavucontrol & ;;
+    4) pactl set-sink-volume @DEFAULT_SINK@ +5% ;;
+    5) pactl set-sink-volume @DEFAULT_SINK@ -5% ;;
+esac
+
+vol=$(pactl get-sink-volume @DEFAULT_SINK@ | awk -F'/' '/Volume/{gsub(/[ %]/,"",$2); print $2"%"}')
+if pactl get-sink-mute @DEFAULT_SINK@ | grep -q yes; then
+    printf '\uf026 %s\n' "$vol"   # volume-off
+else
+    printf '\uf028 %s\n' "$vol"   # volume-up
+fi

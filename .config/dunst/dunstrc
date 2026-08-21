@@ -1,0 +1,60 @@
+# dunst config - Everforest Dark Hard (matches the i3 config palette)
+# See dunst(5) for all options.
+
+[global]
+    ### Display ###
+    # follow = mouse shows notifications on whichever screen the pointer is on
+    # (avoids the monitor-numbering headache on the dual-monitor setup)
+    follow = mouse
+    width = 300
+    height = (0, 300)
+    origin = bottom-right
+    offset = (20, 20)
+    scale = 0
+    notification_limit = 5
+
+    ### Layout ###
+    progress_bar = true
+    progress_bar_height = 10
+    progress_bar_frame_width = 0
+    separator_height = 2
+    padding = 12
+    horizontal_padding = 12
+    text_icon_padding = 12
+    frame_width = 2
+    frame_color = "#a7c080"
+    corner_radius = 4
+    gap_size = 4
+
+    ### Font ###
+    font = JetBrainsMono Nerd Font Mono 9.5
+
+    ### Icons ###
+    enable_recursive_icon_lookup = true
+    icon_position = left
+
+    ### Misc ###
+    idle_threshold = 120
+    browser = brave
+    mouse_left_click = close_current
+    mouse_middle_click = do_action
+    mouse_right_click = close_all
+
+# Everforest Dark Hard urgency colors
+# NB: colors are quoted because dunst 1.13.2's ini parser treats unquoted
+# '#' as an inline comment (regression - see ini.c load_ini_file).
+[urgency_low]
+    background = "#2b3339"
+    foreground = "#d3c6aa"
+    timeout = 6
+
+[urgency_normal]
+    background = "#2b3339"
+    foreground = "#d3c6aa"
+    timeout = 8
+
+[urgency_critical]
+    background = "#e67e80"
+    foreground = "#2b3339"
+    frame_color = "#e67e80"
+    timeout = 0
