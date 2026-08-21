@@ -23,7 +23,7 @@ fi
 PACMAN_PKGS=(
   # build/clone toolchain (yay needs base-devel; git clones this repo)
   base-devel git
-  python-gobject
+  python-gobject python-pipx
   # session / window manager (ly = display manager/login screen)
   i3-wm i3blocks dmenu i3lock xss-lock ly
   xorg-server xorg-xinit xorg-xrandr xorg-xinput xorg-xrdb

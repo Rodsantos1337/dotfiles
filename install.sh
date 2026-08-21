@@ -3,7 +3,7 @@
 # install.sh - restore rod's Everforest i3wm dotfiles
 #
 # Symlinks config files from this repo into $HOME. It does NOT install
-# any packages - see archsetup.md for the provisioning steps.
+# any packages - run setup.sh for the provisioning steps.
 #
 # Usage:  ~/dotfiles/install.sh
 # Idempotent: safe to re-run. Existing files are backed up first.
