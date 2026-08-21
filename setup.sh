@@ -34,6 +34,8 @@ PACMAN_PKGS=(
   otf-commit-mono-nerd inter-font
   # apps
   firefox thunar obsidian zed opencode nano
+  # JS runtime
+  nodejs npm
   # tools
   htop wget github-cli ufw bluez-utils smartmontools zram-generator efibootmgr
 )
