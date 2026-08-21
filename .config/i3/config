@@ -267,3 +267,6 @@ bar {
                 urgent_workspace        #e67e80         #e67e80     #ffffff
         }
 }
+
+# per-machine overrides (monitors, etc.) - glob form: silently skipped if absent
+include ~/.config/i3/local*
