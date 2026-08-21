@@ -30,6 +30,8 @@ PACMAN_PKGS=(
   # system UI
   alacritty dunst picom xsettingsd feh flameshot
   network-manager-applet power-profiles-daemon lm_sensors pavucontrol
+  # portals/xdg: screen sharing, file dialogs, open-with handlers
+  xdg-desktop-portal xdg-desktop-portal-gtk xdg-utils
   # fonts - GeistMono Nerd Font Mono everywhere
   otf-geist-mono-nerd inter-font
   # apps
@@ -39,13 +41,13 @@ PACMAN_PKGS=(
   # tools
   htop wget github-cli ufw bluez-utils smartmontools zram-generator efibootmgr
 )
-echo "== [1/6] pacman packages =="
+echo "== [1/7] pacman packages =="
 sudo pacman -Syu --needed "${PACMAN_PKGS[@]}"
 
 # --- 2. yay (AUR helper) -----------------------------------------------------
 # go is a makedepends of the yay PKGBUILD; makepkg -s pulls it automatically.
 if ! command -v yay >/dev/null 2>&1; then
-  echo "== [2/6] building yay =="
+  echo "== [2/7] building yay =="
   rm -rf /tmp/yay
   git clone --depth 1 https://aur.archlinux.org/yay.git /tmp/yay
   (
@@ -55,28 +57,44 @@ if ! command -v yay >/dev/null 2>&1; then
 fi
 
 # --- 3. AUR packages ---------------------------------------------------------
-echo "== [3/6] AUR packages =="
-yay -S --needed brave-bin everforest-gtk-theme-git everforest-icon-theme-git
+# NOTE: no icon theme package - icons stay stock Adwaita (see xsettingsd.conf)
+echo "== [3/7] AUR packages =="
+yay -S --needed brave-bin everforest-gtk-theme-git
 
 # --- 4. services ---------------------------------------------------------------
-echo "== [4/6] services =="
+echo "== [4/7] services =="
 sudo systemctl enable --now power-profiles-daemon
+sudo systemctl enable --now ufw
+# display manager: archinstall ships lightdm enabled; use ly only if nothing else
+if ! systemctl is-enabled display-manager >/dev/null 2>&1; then
+  sudo systemctl enable ly@tty1
+fi
 
 # --- 5. gsettings (dconf) ------------------------------------------------------
 # The Everforest GTK theme alone is NOT enough: portal-aware apps
 # (e.g. Firefox "System theme - auto") read color-scheme from gsettings
 # and flip to light unless it is set here.
-echo "== [5/6] gsettings =="
+echo "== [5/7] gsettings =="
 gsettings set org.gnome.desktop.interface gtk-theme 'Everforest-Green-Dark'
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.interface cursor-size 14
 gsettings set org.gnome.desktop.peripherals.mouse accel-profile 'flat'
 gsettings set org.gnome.desktop.peripherals.touchpad accel-profile 'flat'
 
-# --- 6. dotfiles -----------------------------------------------------------------
+# --- 6. git identity + gh auth ----------------------------------------------
+echo "== [6/7] git identity + gh auth =="
+git config --global user.name  "Rodsantos1337"
+git config --global user.email "108137142+Rodsantos1337@users.noreply.github.com"
+# interactive fallback: opens the browser; skipped if already authed
+if ! gh auth status >/dev/null 2>&1; then
+  echo "gh: not authenticated - starting browser login"
+  gh auth login -w -p https -h github.com
+fi
+
+# --- 7. dotfiles -----------------------------------------------------------------
 REPO_URL="https://github.com/Rodsantos1337/dotfiles.git"
 DOTFILES_DIR="$HOME/dotfiles"
-echo "== [6/6] dotfiles =="
+echo "== [7/7] dotfiles =="
 if [[ -d "$DOTFILES_DIR/.git" ]]; then
   git -C "$DOTFILES_DIR" pull --ff-only
 else
