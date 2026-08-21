@@ -34,7 +34,7 @@ regardless of what archinstall already provided.
   xorg-xrandr, **xorg-xinput** (mouse-accel script), xorg-xrdb (.Xresources)
 - **System UI:** alacritty, dunst, picom, xsettingsd, feh, flameshot,
   network-manager-applet, power-profiles-daemon, lm_sensors, pavucontrol
-- **Fonts:** ttf-jetbrains-mono-nerd (family `JetBrainsMono Nerd Font Mono`,
+- **Fonts:** otf-geist-mono-nerd (family `GeistMono Nerd Font Mono`,
   used everywhere), inter-font
 - **Apps:** firefox, thunar, obsidian, zed, opencode, nano
   (obsidian/zed/opencode are in `extra` now — no AUR needed)
@@ -96,8 +96,8 @@ Clone `https://github.com/Rodsantos1337/dotfiles.git` to `~/dotfiles`
 - Cursor size lives in 5 places (gtk-3.0/gtk-4.0 settings.ini,
   xsettingsd.conf, gsettings cursor-size, .Xresources Xcursor.size +
   XCURSOR_SIZE in .xprofile). All set to **14**, theme Adwaita.
-- Font = JetBrainsMono Nerd Font Mono everywhere at 11 (dunst 9.5).
-  Do NOT install plain ttf-jetbrains-mono; fontconfig aliases
+- Font = GeistMono Nerd Font Mono everywhere at 11 (dunst 9.5).
+  Do NOT install plain jetbrains mono; fontconfig aliases
   `JetBrains Mono` -> nerd variant for old configs.
 - Monitors: intentionally NOT configured in i3 config — left to i3/xrandr
   auto-detect so the same dotfiles work on desktop and laptop.
