@@ -67,7 +67,7 @@ tiling_drag modifier
 # Set inner/outer gaps
 # (ported from the old EndeavourOS config — clean tiling look)
 gaps inner 4
-gaps outer 2
+gaps outer 4
 
 # 1px border, NO title bar (pixel style = border without the title text)
 # focused window border shows the Everforest green (#829181)
