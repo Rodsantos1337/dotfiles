@@ -38,7 +38,7 @@ PACMAN_PKGS=(
   # fonts - GeistMono Nerd Font Mono everywhere
   otf-geist-mono-nerd inter-font
   # apps
-  firefox thunar obsidian zed opencode nano
+  thunar obsidian zed opencode nano
   # JS runtime
   nodejs npm
   # tools
