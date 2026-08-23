@@ -20,6 +20,21 @@ browser to open (and wires the HTTPS credential helper used by the private
 quill clone in step 8). On success, setup.sh flips the repo back to private
 in step 9 — if the run fails midway, flip it back manually.
 
+### Laptop variant: `setup-laptop.sh`
+
+On the **Gigabyte G5 KF** run `./setup-laptop.sh` instead. It is setup.sh
+plus fan control + keyboard backlight:
+
+- `linux-zen-headers` (DKMS needs headers matching the running zen kernel)
+  and `tuxedo-drivers-dkms` (clevo_acpi/tuxedo_io/tuxedo_keyboard)
+- Clones `fans-g5-kf` and `kbl` to `~/src/` and runs each repo's own
+  idempotent `sudo ./install.sh` (binaries to /usr/local/bin, scoped
+  NOPASSWD sudoers rules), then enables `fans-guard`
+- If `clevo_acpi` was half-loaded during install, one reboot finishes
+  binding — verify with `fans status` (`hwcheck 1`)
+
+Everything else in this document applies to both variants.
+
 
 ## archinstall covers (setup.sh does NOT repeat these)
 
