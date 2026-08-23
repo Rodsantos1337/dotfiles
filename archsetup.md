@@ -45,7 +45,9 @@ in step 9 — if the run fails midway, flip it back manually.
    the custom `Everforest-Green-Dark-Dim` theme is vendored in this repo
    under `themes/` and symlinked by install.sh)
 3. Services: power-profiles-daemon, ufw; enables `ly@tty1` only if no other
-   display manager is active
+   display manager is active. The current power profile shows in the i3bar
+   (`[power-profile]` block in i3blocks.conf); `$mod+Shift+p` switches it and
+   refreshes the bar via SIGRTMIN+2
 4. gsettings theming (custom `Everforest-Green-Dark-Dim` GTK theme +
    `Everforest-Dark` icons + color-scheme so portal-aware apps like
    Firefox don't flip to light mode)

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# pp-indicator - current power profile for i3blocks
+powerprofilesctl get 2>/dev/null
