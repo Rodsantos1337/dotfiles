@@ -15,7 +15,7 @@ Before reinstalling:
 3. `git clone https://github.com/Rodsantos1337/dotfiles.git ~/dotfiles`
 4. `~/dotfiles/setup.sh`
 
-Brave lands in step 3 of setup.sh, so the step-6 `gh auth login -w` has a
+Helium lands in step 3 of setup.sh, so the step-6 `gh auth login -w` has a
 browser to open (and wires the HTTPS credential helper used by the private
 quill clone in step 8). On success, setup.sh flips the repo back to private
 in step 9 — if the run fails midway, flip it back manually.
@@ -40,7 +40,7 @@ in step 9 — if the run fails midway, flip it back manually.
 1. All pacman packages (`--needed`, safe to re-run) — WM session stack, apps,
    fonts (GeistMono Nerd Font Mono), tools, portals/xdg for screen sharing
    and file dialogs
-2. Builds yay from AUR, then AUR packages: brave-bin,
+2. Builds yay from AUR, then AUR packages: helium-browser-bin,
    everforest-icon-theme-git (icons only — the GTK theme is NOT packaged;
    the custom `Everforest-Green-Dark-Dim` theme is vendored in this repo
    under `themes/` and symlinked by install.sh)
@@ -58,9 +58,14 @@ in step 9 — if the run fails midway, flip it back manually.
 
 ## Known inert bits
 
-- `/etc/ly/config.ini` brightness keys reference `brightnessctl`, which is
-  deliberately not installed (monitor brightness is changed on the monitor
-  itself). The keybinds silently do nothing.
+- `/etc/ly/config.ini` brightness keys reference `brightnessctl`; those only
+  apply on the login screen. Day-to-day screen brightness is handled by i3's
+  `XF86MonBrightnessUp/Down` binds running `.config/i3/scripts/brightness`,
+  which shows a dunst progress-bar OSD. Its deps (`brightnessctl`,
+  `libnotify`) are installed by setup.sh — note neither is provided by
+  archinstall's i3 profile (it ships only i3-wm/i3lock/i3status/i3blocks/
+  xss-lock/xterm/lightdm/dmenu), and `libnotify` previously arrived only
+  as a transitive dependency of thunar.
 
 ## Manual steps after setup.sh
 

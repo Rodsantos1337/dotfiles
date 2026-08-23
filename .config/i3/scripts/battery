@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Battery block for i3blocks (Font Awesome 4.7 glyphs via escape codes)
+# charging: green bolt | <20%: red empty | otherwise: white level glyph
+# Auto-hidden when no battery present
+
+d=/sys/class/power_supply/BAT0
+[ -d "$d" ] || exit 0
+
+read -r c < "$d/capacity" || exit 0
+read -r s < "$d/status"   || exit 0
+
+full=$'\uf240'
+threeq=$'\uf241'
+half=$'\uf242'
+quarter=$'\uf243'
+empty=$'\uf244'
+bolt=$'\uf0e7'
+
+if [[ $s == "Charging" ]]; then
+    printf '<span foreground="#a7c080">%s</span> %d%%\n' "$bolt" "$c"
+elif (( c >= 20 )); then
+    if   (( c >= 90 )); then g=$full
+    elif (( c >= 70 )); then g=$threeq
+    elif (( c >= 45 )); then g=$half
+    else                     g=$quarter
+    fi
+    printf '%s %d%%\n' "$g" "$c"
+else
+    printf '<span foreground="#e67e80">%s</span> %d%%\n' "$empty" "$c"
+fi

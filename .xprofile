@@ -1,4 +1,5 @@
 #!/bin/sh
 
 export XCURSOR_SIZE=14
+setxkbmap -layout pt
 [ -f ~/.Xresources ] && xrdb -merge ~/.Xresources

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Brightness OSD: adjusts screen brightness and shows a dunst notification
+# whose progress bar updates in place (-r 9911 + int:value hint) instead of
+# stacking a new popup per keypress.
+# Usage: brightness up | down
+
+case "$1" in
+    up)   op="+5%" ;;
+    down) op="5%-" ;;
+    *) echo "usage: $0 up|down" >&2; exit 1 ;;
+esac
+
+p=$(brightnessctl set "$op" -m | cut -d, -f4 | tr -d '%')
+notify-send -t 1500 -r 9911 -h int:value:"$p" "Brightness $p%"

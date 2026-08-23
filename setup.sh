@@ -17,6 +17,28 @@ if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
   exit 1
 fi
 
+# --- 0. refresh pacman mirrors -----------------------------------------------
+# A stale/dead first mirror (e.g. fastly.mirror.pkgbuild.com returning 404 on
+# core.db) makes `pacman -Syu` fail hard under set -e. Instead of probing
+# mirrors ourselves, pull a pre-filtered list from archlinux.org: with
+# use_mirror_status=on the API only returns mirrors that are up and synced.
+echo "== [0/9] refreshing pacman mirrors =="
+MIRRORLIST=/etc/pacman.d/mirrorlist
+NEW="$(mktemp)"
+if curl -fsS --max-time 20 \
+    "https://archlinux.org/mirrorlist/?protocol=https&use_mirror_status=on" \
+    | sed -e 's/^#Server/Server/' -e '/^#/d' >"$NEW" &&
+    [[ -s "$NEW" ]]; then
+  # truncate after capture: piping curl into `head` causes a SIGPIPE
+  # (exit 23) that pipefail would treat as a hard failure
+  { echo "# refreshed by setup.sh $(date -Iseconds)"; head -10 "$NEW"; } |
+    sudo tee "$MIRRORLIST" >/dev/null
+  echo "mirrorlist refreshed ($(wc -l <"$NEW") healthy mirrors)"
+else
+  echo "warning: could not fetch fresh mirrorlist - keeping current one" >&2
+fi
+rm -f "$NEW"
+
 # --- 1. pacman packages ----------------------------------------------------
 # NOTE: python-gobject is listed as an *optional* dep of
 # power-profiles-daemon but powerprofilesctl requires it
@@ -30,8 +52,11 @@ PACMAN_PKGS=(
   xorg-server xorg-xinit xorg-xrandr xorg-xinput xorg-xrdb
   # system UI
   alacritty dunst picom xsettingsd feh flameshot
-  # gtk2 theming engine (custom Everforest-Green-Dark-Dim gtk-2.0 needs it)
-  gtk-engine-murrine
+  # brightness OSD: i3 fn-keys -> scripts/brightness needs brightnessctl +
+  # notify-send (libnotify); neither comes from archinstall's i3 profile
+  brightnessctl libnotify
+  # NOTE: gtk-engine-murrine moved to the AUR section below - it was
+  # dropped from [extra]; one missing target aborts the whole transaction
   network-manager-applet power-profiles-daemon lm_sensors pavucontrol
   # portals/xdg: screen sharing, file dialogs, open-with handlers
   xdg-desktop-portal xdg-desktop-portal-gtk xdg-utils
@@ -45,7 +70,14 @@ PACMAN_PKGS=(
   htop wget github-cli ufw bluez-utils smartmontools zram-generator efibootmgr
 )
 echo "== [1/9] pacman packages =="
-sudo pacman -Syu --needed "${PACMAN_PKGS[@]}"
+# full pacman output lands in this log so failures are always debuggable
+PACMAN_LOG="${XDG_CACHE_HOME:-$HOME/.cache}/setup-pacman.log"
+{
+  echo "=== setup.sh run $(date -Iseconds) ==="
+  # refresh keyring first: stale ISO keyrings break signature checks mid-upgrade
+  sudo pacman -Sy --needed archlinux-keyring
+  sudo pacman -Su --needed "${PACMAN_PKGS[@]}"
+} |& tee -a "$PACMAN_LOG"
 
 # --- 2. yay (AUR helper) -----------------------------------------------------
 # go is a makedepends of the yay PKGBUILD; makepkg -s pulls it automatically.
@@ -61,7 +93,7 @@ fi
 
 # --- 3. AUR packages ---------------------------------------------------------
 echo "== [3/9] AUR packages =="
-yay -S --needed brave-bin everforest-icon-theme-git
+yay -S --needed helium-browser-bin everforest-icon-theme-git gtk-engine-murrine
 
 # --- 4. services ---------------------------------------------------------------
 echo "== [4/9] services =="
@@ -106,13 +138,17 @@ fi
 "$DOTFILES_DIR/install.sh"
 
 # --- 8. quill (dev install, editable) -----------------------------------------
+# quill is a private repo: requires gh auth from step 6. Non-fatal so a
+# failed clone/install never blocks the privatize step below.
 echo "== [8/9] quill dev install =="
 QUILL_DIR="$HOME/base/quill"
 if [[ ! -d "$QUILL_DIR/.git" ]]; then
   mkdir -p "$(dirname "$QUILL_DIR")"
-  git clone https://github.com/Rodsantos1337/quill.git "$QUILL_DIR"
+  if ! git clone https://github.com/Rodsantos1337/quill.git "$QUILL_DIR"; then
+    echo "warning: quill clone failed (private repo? gh authed?) - skipping" >&2
+  fi
 fi
-if ! pipx list | grep -q '^quill'; then
+if [[ -d "$QUILL_DIR/.git" ]] && ! pipx list | grep -q '^quill'; then
   pipx install -e "$QUILL_DIR"
 fi
 
@@ -120,10 +156,14 @@ fi
 # The repo was made public pre-install so it could be cloned without auth.
 # Only flip back on full success: a failed run leaves it public/inspectable.
 echo "== [9/9] privatize dotfiles repo =="
-VIS="$(gh repo view Rodsantos1337/dotfiles --json visibility -q .visibility)"
-if [[ "$VIS" == "PUBLIC" ]]; then
-  gh repo edit Rodsantos1337/dotfiles --visibility private \
-    --accept-visibility-change-consequences
+if ! gh auth status >/dev/null 2>&1; then
+  echo "warning: gh not authenticated - leaving repo visibility as-is" >&2
 else
-  echo "already $VIS, skipping"
+  VIS="$(gh repo view Rodsantos1337/dotfiles --json visibility -q .visibility)"
+  if [[ "$VIS" == "PUBLIC" ]]; then
+    gh repo edit Rodsantos1337/dotfiles --visibility private \
+      --accept-visibility-change-consequences
+  else
+    echo "already $VIS, skipping"
+  fi
 fi

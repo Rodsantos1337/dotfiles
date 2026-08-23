@@ -125,13 +125,19 @@ bindsym $mod+v split v
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
+# fan control (fans-g5-kf) + keyboard backlight (kbl)
+bindsym $mod+Shift+f exec --no-startup-id fans max && notify-send "Fans" "MAX - turbine mode"
+bindsym $mod+Control+f exec --no-startup-id fans auto && notify-send "Fans" "auto (thermal guard)"
+bindsym $mod+Mod1+f exec --no-startup-id notify-send "Fan status" "$(fans status 2>/dev/null | tr '\n' ' ')"
+bindsym $mod+b exec --no-startup-id kbl
+
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+g layout tabbed
 bindsym $mod+e layout toggle split
 
 ## App shortcuts (imported from the old EndeavourOS config)
-bindsym $mod+w exec --no-startup-id /usr/bin/brave
+bindsym $mod+w exec --no-startup-id /usr/bin/helium-browser
 bindsym $mod+n exec --no-startup-id /usr/bin/thunar
 bindsym $mod+o exec --no-startup-id /usr/bin/obsidian
 bindsym $mod+x exec --no-startup-id zeditor
@@ -190,6 +196,11 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# reload the configuration file
+# brightness keys (dunst OSD via scripts/brightness - updates one notification)
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/brightness up
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/brightness down
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
