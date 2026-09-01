@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# refresh-toggle - toggle eDP-1 between 144Hz and 60Hz
+# Binds: $mod+Shift+x
+# Notifies via dunst with replace id -r 9912 to avoid stacking
+set -euo pipefail
+
+OUT="eDP-1"
+MODE="1920x1080"
+RATE_HIGH="144.00"
+RATE_LOW="60.00"
+
+# detect current rate: extract the starred rate (e.g. 144.00* or 60.01*)
+cur_line=$(xrandr --query | grep -A1 "^${OUT} connected" | grep -m1 '\*')
+# cur_line example: "   1920x1080    144.00*+  60.01 ..."
+cur_rate=$(echo "$cur_line" | grep -oE '[0-9]+\.[0-9]+\*' | head -1 | tr -d '*')
+if [[ "$cur_rate" == 144* ]]; then
+  target="$RATE_LOW"
+  label="60Hz"
+else
+  target="$RATE_HIGH"
+  label="144Hz"
+fi
+
+# try exact rate first, fallback to integer if mode not found
+if ! xrandr --output "$OUT" --mode "$MODE" --rate "$target" 2>/dev/null; then
+  # fallback: strip decimal for xrandr matching
+  short="${label%Hz}"
+  xrandr --output "$OUT" --mode "$MODE" --rate "$short"
+fi
+
+notify-send -t 1500 -r 9912 "Refresh Rate" "$label ($MODE @ $OUT)"

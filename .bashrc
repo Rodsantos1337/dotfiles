@@ -2,6 +2,9 @@
 # ~/.bashrc
 #
 
+# --- AWWWARDS_REPO (managed) --- global for all shells/opencode, survives reboots
+export AWWWARDS_REPO="https://github.com/Rodsantos1337/min-base.git"
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 

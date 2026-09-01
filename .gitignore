@@ -4,4 +4,10 @@
 .DS_Store
 
 # scratch/backup files
-*.bak-*
+*.bak*
+
+# quill session notes (harness-managed, not for tracking)
+.quill/
+
+# stray setup.sh / pacman output
+log.log

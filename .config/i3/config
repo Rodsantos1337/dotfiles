@@ -141,6 +141,7 @@ bindsym $mod+w exec --no-startup-id /usr/bin/helium-browser
 bindsym $mod+n exec --no-startup-id /usr/bin/thunar
 bindsym $mod+o exec --no-startup-id /usr/bin/obsidian
 bindsym $mod+x exec --no-startup-id zeditor
+bindsym $mod+Shift+x exec --no-startup-id ~/.config/i3/scripts/refresh-toggle
 
 # Screenshots (flameshot)
 exec --no-startup-id flameshot
