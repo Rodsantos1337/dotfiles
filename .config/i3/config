@@ -139,8 +139,14 @@ bindsym $mod+e layout toggle split
 ## App shortcuts (imported from the old EndeavourOS config)
 bindsym $mod+w exec --no-startup-id zen-browser
 bindsym $mod+n exec --no-startup-id /usr/bin/thunar
-bindsym $mod+o exec --no-startup-id /usr/bin/obsidian
-bindsym $mod+x exec --no-startup-id zeditor
+# mod+o: floating "vault agent" terminal in ~/vault (960x640, centered)
+# (obsidian kept here for reference — currently broken)
+#bindsym $mod+o exec --no-startup-id /usr/bin/obsidian
+bindsym $mod+o exec --no-startup-id alacritty --class AlacrittyVault --working-directory /home/rod/vault
+for_window [class="^AlacrittyVault$"] floating enable, resize set 960 640, move position center
+bindsym $mod+x exec --no-startup-id codium
+bindsym $mod+Shift+o exec --no-startup-id codium /home/rod/vault
+
 bindsym $mod+Shift+x exec --no-startup-id ~/.config/i3/scripts/refresh-toggle
 
 # Screenshots (flameshot)
