@@ -21,6 +21,7 @@ MAPPINGS=(
   ".bashrc"
   ".fehbg"
   "wallpapers/bg.jpg:Pictures/bg.jpg"
+  "wallpapers/bg-old.jpg:Pictures/bg-old.jpg"
   ".config/i3/config"
   ".config/i3/i3blocks.conf"
   ".config/i3/scripts"
