@@ -36,6 +36,7 @@ MAPPINGS=(
   ".config/picom"
   ".config/polybar"
   ".config/rofi"
+  ".config/nvim"
   ".config/VSCodium"
   ".vscode-oss/argv.json"
   ".config/xsettingsd"

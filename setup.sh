@@ -46,6 +46,8 @@ rm -f "$NEW"
 PACMAN_PKGS=(
   # build/clone toolchain (yay needs base-devel; git clones this repo)
   base-devel git
+  # fuzzy finder; required by LazyVim's default fzf-lua picker
+  fzf
   python-gobject python-pipx
   # session / window manager (ly = display manager/login screen)
   i3-wm i3blocks dmenu i3lock xss-lock ly
