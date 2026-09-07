@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
-# power-profiles - dmenu power profile switcher (Everforest Dark Hard)
+# power-profiles - rofi power profile switcher (Everforest Dim via rofi theme)
 # Binds: $mod+Shift+p
 # Requires powerprofiles-daemon (extra) + python-gobject for powerprofilesctl.
 set -euo pipefail
 
-theme=(-nb '#1e2326' -nf '#ffffff' -sb '#829181' -sf '#1e2326' -fn 'monospace 11')
-
 if ! command -v powerprofilesctl >/dev/null 2>&1; then
     printf '%s\n' "power-profiles-daemon not installed (sudo pacman -S power-profiles-daemon)" | \
-        dmenu "${theme[@]}"
+        rofi -dmenu -p "Power profile"
     exit 1
 fi
 
@@ -16,11 +14,11 @@ profiles=$(powerprofilesctl list 2>/dev/null | grep -E '^\s*\*?\s*[a-z]+' | tr -
 
 if [[ -z "$profiles" ]]; then
     printf '%s\n' "No power profiles available" | \
-        dmenu "${theme[@]}"
+        rofi -dmenu -p "Power profile"
     exit 1
 fi
 
-choice=$(printf '%s\n' $profiles | dmenu "${theme[@]}") || exit 1
+choice=$(printf '%s\n' $profiles | rofi -dmenu -i -p "Power profile") || exit 1
 
 if [[ -n "$choice" ]]; then
     powerprofilesctl set "$choice"

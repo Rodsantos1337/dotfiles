@@ -18,3 +18,4 @@ if [ -d "$HOME/.local/bin" ]; then
         *) PATH="$HOME/.local/bin:$PATH" ;;
     esac
 fi
+export TERMINAL=alacritty

@@ -1,0 +1,14 @@
+/* rofi launcher config - drun/run only (powermenu stays on dmenu) */
+
+configuration {
+  modes: "drun,run";
+  show-icons: true;
+  icon-theme: "Everforest-Dark";
+  font: "JetBrainsMono Nerd Font Mono 11";
+  drun-display-format: "{name}";
+  display-drun: "Apps";
+  display-run: "Run";
+  sidebar-mode: false;
+}
+
+@theme "everforest-dim"

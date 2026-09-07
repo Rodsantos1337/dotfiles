@@ -34,6 +34,8 @@ MAPPINGS=(
   ".config/opencode/tui.json"
   ".config/zed"
   ".config/picom"
+  ".config/polybar"
+  ".config/rofi"
   ".config/xsettingsd"
   ".config/disable-mouse-accel.sh"
   "themes/Everforest-Green-Dark-Dim:.local/share/themes/Everforest-Green-Dark-Dim"

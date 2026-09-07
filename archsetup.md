@@ -55,7 +55,7 @@ Everything else in this document applies to both variants.
 1. All pacman packages (`--needed`, safe to re-run) — WM session stack, apps,
    fonts (GeistMono Nerd Font Mono), tools, portals/xdg for screen sharing
    and file dialogs
-2. Builds yay from AUR, then AUR packages: helium-browser-bin,
+2. Builds yay from AUR, then AUR packages: zen-browser-bin,
    everforest-icon-theme-git (icons only — the GTK theme is NOT packaged;
    the custom `Everforest-Green-Dark-Dim` theme is vendored in this repo
    under `themes/` and symlinked by install.sh)

@@ -51,7 +51,7 @@ PACMAN_PKGS=(
   i3-wm i3blocks dmenu i3lock xss-lock ly
   xorg-server xorg-xinit xorg-xrandr xorg-xinput xorg-xrdb
   # system UI
-  alacritty dunst picom xsettingsd feh flameshot
+  alacritty dunst picom xsettingsd feh flameshot polybar rofi
   # brightness OSD: i3 fn-keys -> scripts/brightness needs brightnessctl +
   # notify-send (libnotify); neither comes from archinstall's i3 profile
   brightnessctl libnotify
@@ -61,7 +61,7 @@ PACMAN_PKGS=(
   # portals/xdg: screen sharing, file dialogs, open-with handlers
   xdg-desktop-portal xdg-desktop-portal-gtk xdg-utils
   # fonts - GeistMono Nerd Font Mono everywhere
-  otf-geist-mono-nerd inter-font
+  otf-geist-mono-nerd inter-font ttf-jetbrains-mono-nerd
   # apps
   thunar obsidian zed opencode nano
   # JS runtime
@@ -93,7 +93,7 @@ fi
 
 # --- 3. AUR packages ---------------------------------------------------------
 echo "== [3/9] AUR packages =="
-yay -S --needed helium-browser-bin everforest-icon-theme-git gtk-engine-murrine
+yay -S --needed zen-browser-bin everforest-icon-theme-git gtk-engine-murrine
 
 # --- 4. services ---------------------------------------------------------------
 echo "== [4/9] services =="
@@ -115,6 +115,12 @@ gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.interface cursor-size 14
 gsettings set org.gnome.desktop.peripherals.mouse accel-profile 'flat'
 gsettings set org.gnome.desktop.peripherals.touchpad accel-profile 'flat'
+
+# --- 5b. keyboard: pt-pt everywhere (TTY + X11/login + session fallback) -----
+echo "== [5b/9] keyboard (pt) =="
+sudo localectl set-keymap pt-latin1
+sudo localectl set-x11-keymap pt
+# session fallback lives in .xprofile + i3 config (setxkbmap -layout pt)
 
 # --- 6. git identity + gh auth ----------------------------------------------
 echo "== [6/9] git identity + gh auth =="

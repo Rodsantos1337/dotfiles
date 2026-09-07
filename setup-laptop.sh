@@ -55,7 +55,7 @@ PACMAN_PKGS=(
   i3-wm i3blocks dmenu i3lock xss-lock ly
   xorg-server xorg-xinit xorg-xrandr xorg-xinput xorg-xrdb
   # system UI
-  alacritty dunst picom xsettingsd feh flameshot
+  alacritty dunst picom xsettingsd feh flameshot polybar rofi
   # brightness OSD: i3 fn-keys -> scripts/brightness needs brightnessctl +
   # notify-send (libnotify); neither comes from archinstall's i3 profile
   brightnessctl libnotify
@@ -65,7 +65,7 @@ PACMAN_PKGS=(
   # portals/xdg: screen sharing, file dialogs, open-with handlers
   xdg-desktop-portal xdg-desktop-portal-gtk xdg-utils
   # fonts - GeistMono Nerd Font Mono everywhere
-  otf-geist-mono-nerd inter-font
+  otf-geist-mono-nerd inter-font ttf-jetbrains-mono-nerd
   # apps
   thunar obsidian zed opencode nano
   # JS runtime
@@ -123,7 +123,7 @@ for REPO in fans-g5-kf kbl; do
     mkdir -p "$(dirname "$SRC_DIR")"
     git clone "https://github.com/Rodsantos1337/$REPO.git" "$SRC_DIR"
   fi
-  sudo "$SRC_DIR/install.sh"
+  sudo bash -c "cd \"$SRC_DIR\" && exec ./install.sh"
 done
 sudo systemctl enable --now fans-guard
 
@@ -147,6 +147,12 @@ gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.interface cursor-size 14
 gsettings set org.gnome.desktop.peripherals.mouse accel-profile 'flat'
 gsettings set org.gnome.desktop.peripherals.touchpad accel-profile 'flat'
+
+# --- 6b. keyboard: pt-pt everywhere (TTY + X11/login + session fallback) -----
+echo "== [6b/10] keyboard (pt) =="
+sudo localectl set-keymap pt-latin1
+sudo localectl set-x11-keymap pt
+# session fallback lives in .xprofile + i3 config (setxkbmap -layout pt)
 
 # --- 7. git identity + gh auth ----------------------------------------------
 echo "== [6/10] git identity + gh auth =="

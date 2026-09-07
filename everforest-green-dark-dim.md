@@ -103,7 +103,28 @@ commit `2dd7dd9e96992f80596603807f9254f8d4ef90dd`, pre April-2021 rework).
 - `/usr/share/themes/Everforest-*` — stock, untouched.
 - Icon theme `Everforest-Dark` and cursor theme `Adwaita` — unchanged.
 - i3blocks config needed no changes (text-only, transparent over the bar).
-- picom has no theme colors; nothing to do.
+### picom
+
+- `~/.config/picom/picom.conf`: soft shadows (radius 8, opacity 0.35) +
+  fast fading + `inactive-opacity 0.96`. No full-screen blur (RAM/CPU hog).
+  Shadow color is plain black; there are no Everforest-tinted compositor
+  colors to set.
+
+### polybar (replaces i3bar)
+
+- `~/.config/polybar/config.ini` + `launch.sh` (launched from i3 config).
+- Bottom bar: `background #1e2326`, `foreground #d3c6aa`,
+  `border #3a4141`, focused workspace green `#a7c080` on `#1e2326`,
+  urgent `#e67e80`. Font GeistMono Nerd Font Mono 11.
+- Old `bar {}` block kept commented in i3 config as fallback; `i3blocks.conf`
+  retained but unused.
+
+### rofi (launcher only, `$mod+d`)
+
+- `~/.config/rofi/config.rasi` (`drun,run`, icons on) + `everforest-dim.rasi`
+  (window `#1e2326`, inputbar `#232a2e`, border `#3a4141`,
+  selected green `#a7c080` on `#1e2326`).
+- Powermenu / power-profiles scripts stay on dmenu, so `dmenu` remains installed.
 - Libadwaita apps (modern GNOME core apps) ignore `gtk-theme-name` entirely;
   they will not follow any of this. Nothing short of patching them fixes that.
 - Truecolor terminal required for the opencode theme to render accurately.
