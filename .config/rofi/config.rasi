@@ -4,7 +4,7 @@ configuration {
   modes: "drun,run";
   show-icons: true;
   icon-theme: "Everforest-Dark";
-  font: "Inter 11";
+  font: "Inter 12";
   drun-display-format: "{name}";
   display-drun: "Apps";
   display-run: "Run";

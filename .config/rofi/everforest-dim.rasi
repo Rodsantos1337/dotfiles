@@ -11,7 +11,7 @@
   muted:  #7a8478;
   green:  #a7c080;
   red:    #e67e80;
-  font:   "Inter 11";
+  font:   "Inter 12";
 }
 
 window {
