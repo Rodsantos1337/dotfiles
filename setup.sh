@@ -67,7 +67,7 @@ PACMAN_PKGS=(
   # JS runtime
   nodejs npm
   # tools
-  htop wget github-cli ufw bluez-utils smartmontools zram-generator efibootmgr
+  htop wget github-cli ufw bluez-utils smartmontools zram-generator efibootmgr tailscale syncthing
 )
 echo "== [1/9] pacman packages =="
 # full pacman output lands in this log so failures are always debuggable
@@ -99,6 +99,13 @@ yay -S --needed zen-browser-bin everforest-icon-theme-git gtk-engine-murrine
 echo "== [4/9] services =="
 sudo systemctl enable --now power-profiles-daemon
 sudo systemctl enable --now ufw
+# tailscale mesh + syncthing (vault sync to phone; pairing via web UI)
+sudo systemctl enable --now tailscaled
+sudo ufw allow in on tailscale0 comment 'tailnet'
+systemctl --user enable --now syncthing.service
+sudo loginctl enable-linger "$USER"   # syncthing syncs from boot, pre-login
+mkdir -p "$HOME/vault"                # sync target (mod+o / mod+Shift+o)
+echo "syncthing web UI: http://localhost:8384 (add phone, share ~/vault)"
 # display manager: archinstall ships lightdm enabled; use ly only if nothing else
 if ! systemctl is-enabled display-manager >/dev/null 2>&1; then
   sudo systemctl enable ly@tty1
@@ -130,6 +137,11 @@ git config --global user.email "108137142+Rodsantos1337@users.noreply.github.com
 if ! gh auth status >/dev/null 2>&1; then
   echo "gh: not authenticated - starting browser login"
   gh auth login -w -p https -h github.com
+fi
+# tailscale: interactive browser login, skipped if already joined
+if ! sudo tailscale status >/dev/null 2>&1; then
+  echo "tailscale: not authenticated - starting browser login"
+  sudo tailscale up
 fi
 
 # --- 7. dotfiles -----------------------------------------------------------------

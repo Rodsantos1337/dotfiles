@@ -71,7 +71,7 @@ PACMAN_PKGS=(
   # JS runtime
   nodejs npm
   # tools
-  htop wget github-cli ufw bluez-utils smartmontools zram-generator efibootmgr
+  htop wget github-cli ufw bluez-utils smartmontools zram-generator efibootmgr tailscale syncthing
   # laptop: DKMS (tuxedo-drivers-dkms) builds against headers matching the
   # running kernel - this machine runs linux-zen
   linux-zen-headers
@@ -131,6 +131,13 @@ sudo systemctl enable --now fans-guard
 echo "== [5/10] services =="
 sudo systemctl enable --now power-profiles-daemon
 sudo systemctl enable --now ufw
+# tailscale mesh + syncthing (vault sync to phone; pairing via web UI)
+sudo systemctl enable --now tailscaled
+sudo ufw allow in on tailscale0 comment 'tailnet'
+systemctl --user enable --now syncthing.service
+sudo loginctl enable-linger "$USER"   # syncthing syncs from boot, pre-login
+mkdir -p "$HOME/vault"                # sync target (mod+o / mod+Shift+o)
+echo "syncthing web UI: http://localhost:8384 (add phone, share ~/vault)"
 # display manager: archinstall ships lightdm enabled; use ly only if nothing else
 if ! systemctl is-enabled display-manager >/dev/null 2>&1; then
   sudo systemctl enable ly@tty1
@@ -155,13 +162,18 @@ sudo localectl set-x11-keymap pt
 # session fallback lives in .xprofile + i3 config (setxkbmap -layout pt)
 
 # --- 7. git identity + gh auth ----------------------------------------------
-echo "== [6/10] git identity + gh auth =="
+echo "== [7/10] git identity + gh auth =="
 git config --global user.name  "Rodsantos1337"
 git config --global user.email "108137142+Rodsantos1337@users.noreply.github.com"
 # interactive fallback: opens the browser; skipped if already authed
 if ! gh auth status >/dev/null 2>&1; then
   echo "gh: not authenticated - starting browser login"
   gh auth login -w -p https -h github.com
+fi
+# tailscale: interactive browser login, skipped if already joined
+if ! sudo tailscale status >/dev/null 2>&1; then
+  echo "tailscale: not authenticated - starting browser login"
+  sudo tailscale up
 fi
 
 # --- 8. dotfiles -----------------------------------------------------------------

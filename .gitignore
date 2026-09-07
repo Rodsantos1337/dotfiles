@@ -19,3 +19,6 @@ log.log
 !.config/VSCodium/User/settings.json
 !.config/VSCodium/User/keybindings.json
 !.config/VSCodium/User/snippets
+
+# syncthing: device keys/config are per-machine, never commit
+.config/syncthing/
