@@ -25,7 +25,7 @@ the same contrast offset relative to the new main bg.
 | borders / separators  | #434a4e  | #3a4141  |
 | terminal black        | #475258  | #323c41  |
 
-Foreground/accents are unchanged: fg `#d3c6aa`, green `#a7c080`, red `#e67e80`,
+Foreground/accents are unchanged: fg `#ffffff`, green `#a7c080`, red `#e67e80`,
 yellow `#dbbc7f`, blue `#7fbbb3`, purple `#d699b6`, aqua `#83c092`,
 orange `#e69875`, greys `#7a8478` / `#859289`.
 
@@ -113,7 +113,7 @@ commit `2dd7dd9e96992f80596603807f9254f8d4ef90dd`, pre April-2021 rework).
 ### polybar (replaces i3bar)
 
 - `~/.config/polybar/config.ini` + `launch.sh` (launched from i3 config).
-- Bottom bar: `background #1e2326`, `foreground #d3c6aa`,
+- Bottom bar: `background #1e2326`, `foreground #ffffff`,
   `border #3a4141`, focused workspace green `#a7c080` on `#1e2326`,
   urgent `#e67e80`. Font GeistMono Nerd Font Mono 11.
 - Old `bar {}` block kept commented in i3 config as fallback; `i3blocks.conf`

@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango: Inter 11
+font pango: Inter 12
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -243,7 +243,7 @@ bindsym $mod+r mode "resize"
 
 # Define colors variables (Everforest Dark Hard, custom darker bg = v2 hard bg_dim):
 set $ever_bg       #1e2326
-set $ever_fg       #d3c6aa
+set $ever_fg       #ffffff
 set $ever_black    #475258
 set $ever_red      #e67e80
 set $ever_green    #a7c080
