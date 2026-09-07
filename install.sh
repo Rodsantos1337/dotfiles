@@ -37,6 +37,7 @@ MAPPINGS=(
   ".config/polybar"
   ".config/rofi"
   ".config/VSCodium"
+  ".vscode-oss/argv.json"
   ".config/xsettingsd"
   ".config/disable-mouse-accel.sh"
   "themes/Everforest-Green-Dark-Dim:.local/share/themes/Everforest-Green-Dark-Dim"
