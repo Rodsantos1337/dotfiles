@@ -52,11 +52,10 @@ exec --no-startup-id sleep 1 && feh --bg-fill ~/Pictures/bg.jpg ~/Pictures/bg.jp
 exec --no-startup-id ~/.config/disable-mouse-accel.sh
 
 # Use pactl to adjust volume in PulseAudio.
-set $refresh_i3blocks killall -USR1 i3blocks
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3blocks
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3blocks
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3blocks
- bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3blocks
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -86,13 +85,8 @@ bindsym $mod+Return exec --no-startup-id alacritty
 # kill focused window
 bindsym $mod+q kill
 
-# start rofi (app launcher, Everforest Dim)
+# start rofi (app launcher + powermenu, Everforest Dim)
 bindsym $mod+d exec --no-startup-id rofi -show drun
-# dmenu fallback (kept for powermenu scripts):
-# bindsym $mod+d exec --no-startup-id dmenu_run -nb '#1e2326' -nf '#ffffff' -sb '#829181' -sf '#ffffff' -fn 'monospace 11'
-# There also is i3-dmenu-desktop which only displays applications shipping a
-# .desktop file. It is a wrapper around dmenu, so you need that installed.
-# bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 # power menus (rofi)
 bindsym $mod+Shift+e exec --no-startup-id ~/.config/i3/scripts/powermenu
@@ -266,26 +260,7 @@ client.unfocused            $ever_black $ever_bg    $ever_black $ever_bg    $eve
 client.focused_inactive     $ever_black $ever_bg    $ever_black $ever_bg    $ever_bg
 client.urgent               $ever_red   $ever_red   $ever_fg    $ever_red   $ever_red
 
-# polybar is the status bar now (launched near the top of this file).
-# The old i3bar+i3blocks block is kept commented as a fallback:
-#bar {
-#        font pango: JetBrainsMono Nerd Font Mono 11
-#        status_command i3blocks -c ~/.config/i3/i3blocks.conf
-#        position bottom
-#        tray_padding 2
-#        strip_workspace_numbers yes
-#
-#        colors {
-#                separator          #475258
-#                background         #1e2326
-#                statusline         #d3c6aa
-#                #                       border           bg          text
-#                focused_workspace       #829181         #829181     #ffffff
-#                active_workspace        #1e2326         #1e2326       #BEC5B2
-#                inactive_workspace      #1e2326         #1e2326     #ffffff
-#                urgent_workspace        #e67e80         #e67e80     #ffffff
-#        }
-#}
+# polybar is the status bar (launched near the top of this file).
 
 # per-machine overrides (monitors, etc.) - glob form: silently skipped if absent
 include ~/.config/i3/local*

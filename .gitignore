@@ -11,3 +11,11 @@
 
 # stray setup.sh / pacman output
 log.log
+
+# VSCodium: track only user settings, ignore caches/profile junk
+.config/VSCodium/*
+!.config/VSCodium/User
+.config/VSCodium/User/*
+!.config/VSCodium/User/settings.json
+!.config/VSCodium/User/keybindings.json
+!.config/VSCodium/User/snippets

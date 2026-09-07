@@ -19,3 +19,5 @@ if [ -d "$HOME/.local/bin" ]; then
     esac
 fi
 export TERMINAL=alacritty
+export EDITOR="codium --wait"
+export VISUAL="codium --wait"
