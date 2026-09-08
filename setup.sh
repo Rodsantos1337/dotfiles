@@ -39,6 +39,12 @@ else
 fi
 rm -f "$NEW"
 
+# --- 0b. enable multilib (required for steam) ----------------------------------
+if ! grep -q '^\[multilib\]' /etc/pacman.conf; then
+  echo "enabling [multilib] in /etc/pacman.conf"
+  sudo sed -i '/^#\[multilib\]$/,/^#Include = \/etc\/pacman.d\/mirrorlist$/ s/^#\(\[multilib\]\|Include\)/\1/' /etc/pacman.conf
+fi
+
 # --- 1. pacman packages ----------------------------------------------------
 # NOTE: python-gobject is listed as an *optional* dep of
 # power-profiles-daemon but powerprofilesctl requires it
@@ -47,7 +53,8 @@ PACMAN_PKGS=(
   # build/clone toolchain (yay needs base-devel; git clones this repo)
   base-devel git
   # fuzzy finder; required by LazyVim's default fzf-lua picker
-  fzf
+  # (+ Ctrl+R history, Ctrl+T files, Alt+C dirs via key-bindings.bash)
+  fzf zoxide
   python-gobject python-pipx
   # session / window manager (ly = display manager/login screen)
   i3-wm i3blocks dmenu i3lock xss-lock ly
@@ -65,7 +72,7 @@ PACMAN_PKGS=(
   # fonts - GeistMono Nerd Font Mono everywhere
   otf-geist-mono-nerd inter-font ttf-jetbrains-mono-nerd
   # apps
-  thunar obsidian zed opencode nano
+  thunar opencode nano neovim steam
   # JS runtime
   nodejs npm
   # tools
@@ -95,7 +102,7 @@ fi
 
 # --- 3. AUR packages ---------------------------------------------------------
 echo "== [3/9] AUR packages =="
-yay -S --needed zen-browser-bin everforest-icon-theme-git gtk-engine-murrine
+yay -S --needed zen-browser-bin vscodium-bin everforest-icon-theme-git gtk-engine-murrine
 
 # --- 4. services ---------------------------------------------------------------
 echo "== [4/9] services =="

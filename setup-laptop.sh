@@ -43,6 +43,12 @@ else
 fi
 rm -f "$NEW"
 
+# --- 0b. enable multilib (required for steam) ----------------------------------
+if ! grep -q '^\[multilib\]' /etc/pacman.conf; then
+  echo "enabling [multilib] in /etc/pacman.conf"
+  sudo sed -i '/^#\[multilib\]$/,/^#Include = \/etc\/pacman.d\/mirrorlist$/ s/^#\(\[multilib\]\|Include\)/\1/' /etc/pacman.conf
+fi
+
 # --- 1. pacman packages ----------------------------------------------------
 # NOTE: python-gobject is listed as an *optional* dep of
 # power-profiles-daemon but powerprofilesctl requires it
@@ -50,6 +56,8 @@ rm -f "$NEW"
 PACMAN_PKGS=(
   # build/clone toolchain (yay needs base-devel; git clones this repo)
   base-devel git
+  # fzf: Ctrl+R history, Ctrl+T files, Alt+C dirs; zoxide: `z <fragment>` jumps
+  fzf zoxide
   python-gobject python-pipx
   # session / window manager (ly = display manager/login screen)
   i3-wm i3blocks dmenu i3lock xss-lock ly
@@ -67,7 +75,7 @@ PACMAN_PKGS=(
   # fonts - GeistMono Nerd Font Mono everywhere
   otf-geist-mono-nerd inter-font ttf-jetbrains-mono-nerd
   # apps
-  thunar obsidian zed opencode nano
+  thunar opencode nano neovim steam
   # JS runtime
   nodejs npm
   # tools
@@ -104,7 +112,7 @@ echo "== [3/10] AUR packages =="
 # interface both fans-g5-kf and kbl drive (fans via /dev/tuxedo_io ioctls,
 # kbl via the rgb:kbd_backlight LED). Pre-installing here keeps the two
 # tool installers from each pulling it separately.
-yay -S --needed helium-browser-bin everforest-icon-theme-git gtk-engine-murrine \
+yay -S --needed helium-browser-bin vscodium-bin everforest-icon-theme-git gtk-engine-murrine \
   tuxedo-drivers-dkms
 
 # --- 4. fan control + keyboard backlight (Gigabyte G5 KF) ---------------------
