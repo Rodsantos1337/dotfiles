@@ -21,3 +21,16 @@ fi
 export TERMINAL=alacritty
 export EDITOR="codium --wait"
 export VISUAL="codium --wait"
+
+# zoxide: smart `z <fragment>` jumps (frecency-ranked)
+if command -v zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init bash)"
+fi
+
+# fzf: Ctrl+R = history, Ctrl+T = files, Alt+C = cd to dir
+if [[ -f /usr/share/fzf/key-bindings.bash ]]; then
+    source /usr/share/fzf/key-bindings.bash
+fi
+if [[ -f /usr/share/fzf/completion.bash ]]; then
+    source /usr/share/fzf/completion.bash
+fi
