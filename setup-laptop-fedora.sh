@@ -92,6 +92,20 @@ DNF_LOG="${XDG_CACHE_HOME:-$HOME/.cache}/setup-fedora-dnf.log"
   sudo dnf install -y "${DNF_PKGS[@]}"
 } |& tee -a "$DNF_LOG"
 
+# --- 2b. git identity + gh auth (early) ----------------------------------------
+# gh is installed in step 2. Auth NOW so every later
+# git clone https://github.com/... (icons in step 3, quill in step 9)
+# goes through the gh credential helper - unauthenticated clones get
+# rate-limited (403) on fresh IPs / CGNAT. Skipped if already authed.
+echo "== [2b/10] git identity + gh auth =="
+git config --global user.name  "Rodsantos1337"
+git config --global user.email "108137142+Rodsantos1337@users.noreply.github.com"
+if ! gh auth status >/dev/null 2>&1; then
+  echo "gh: not authenticated - starting browser login"
+  gh auth login -w -p https -h github.com
+fi
+gh auth setup-git --hostname github.com || true
+
 # --- 3. third-party apps (missing from Fedora) ---------------------------------
 echo "== [3/10] third-party apps =="
 # VSCodium + Zen via the repos enabled in step 1
@@ -173,14 +187,13 @@ sudo localectl set-keymap pt-latin1
 sudo localectl set-x11-keymap pt
 # session fallback lives in .xprofile + i3 config (setxkbmap -layout pt)
 
-# --- 7. git identity + gh auth ----------------------------------------------
-echo "== [7/10] git identity + gh auth =="
+# --- 7. git identity + gh auth (verify; authed in step 2b) --------------------
+echo "== [7/10] git identity + gh auth (verify) =="
 git config --global user.name  "Rodsantos1337"
 git config --global user.email "108137142+Rodsantos1337@users.noreply.github.com"
-# interactive fallback: opens the browser; skipped if already authed
+# already authed in step 2b; this is just a verify (non-interactive warning)
 if ! gh auth status >/dev/null 2>&1; then
-  echo "gh: not authenticated - starting browser login"
-  gh auth login -w -p https -h github.com
+  echo "warning: gh not authenticated (step 2b login failed?) - quill clone may fail" >&2
 fi
 # tailscale: interactive browser login, skipped if already joined
 if ! sudo tailscale status >/dev/null 2>&1; then
@@ -198,6 +211,25 @@ else
   git clone "$REPO_URL" "$DOTFILES_DIR"
 fi
 "$DOTFILES_DIR/install.sh"
+
+# --- 8a. stale-home guard -------------------------------------------------------
+# Configs must reference $HOME, never a literal /home/<user>/... — a hardcoded
+# old-home path (e.g. from a different machine) breaks bindings like mod+o
+# ("vault is an invalid dir") even though ~/vault exists. Guard the deployed
+# copy; $HOME is expanded by bash -c wrappers at exec time.
+echo "== [8a/10] stale-home guard =="
+STALE_FAIL=0
+while IFS= read -r -d '' F; do
+  echo "STALE PATH in $F:" >&2
+  grep -nE "/home/[A-Za-z0-9._-]+/" "$F" >&2
+  STALE_FAIL=1
+done < <(grep -RlZE --include='*.conf' --include='config' --include='.fehbg' \
+  --include='*.sh' --include='*.ini' "/home/[A-Za-z0-9._-]+/" \
+  "$HOME/.config/i3" "$HOME/.config/polybar" "$HOME/.config/alacritty" \
+  "$HOME/.fehbg" 2>/dev/null || true)
+if [[ $STALE_FAIL -ne 0 ]]; then
+  echo "warning: literal /home/<user>/ paths found above - replace with \$HOME" >&2
+fi
 
 # --- 8b. verify configs linked ---------------------------------------------------
 # install.sh is idempotent and backs up pre-existing files; confirm the key

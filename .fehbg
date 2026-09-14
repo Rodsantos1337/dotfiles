@@ -1,2 +1,3 @@
 #!/bin/sh
-feh --no-fehbg --bg-fill '/home/rod/Pictures/new.jpg' '/home/rod/Pictures/new.jpg' 
+# $HOME-relative so this works on any machine (i3 execs it via xinit/feh)
+exec feh --no-fehbg --bg-fill "$HOME/Pictures/new.jpg" "$HOME/Pictures/new.jpg"

@@ -147,10 +147,11 @@ bindsym $mod+n exec --no-startup-id /usr/bin/thunar
 # mod+o: floating "vault agent" terminal in ~/vault (960x640, centered)
 # (obsidian kept here for reference — currently broken)
 #bindsym $mod+o exec --no-startup-id /usr/bin/obsidian
-bindsym $mod+o exec --no-startup-id alacritty --class AlacrittyVault --working-directory /home/rod/vault
+# bash -c wrapper so $HOME expands at exec time (i3 doesn't expand env vars)
+bindsym $mod+o exec --no-startup-id bash -c 'exec alacritty --class AlacrittyVault --working-directory "$HOME/vault"'
 for_window [class="^AlacrittyVault$"] floating enable, resize set 960 640, move position center
 bindsym $mod+x exec --no-startup-id codium
-bindsym $mod+Shift+o exec --no-startup-id codium /home/rod/vault
+bindsym $mod+Shift+o exec --no-startup-id bash -c 'exec codium "$HOME/vault"'
 
 bindsym $mod+Shift+x exec --no-startup-id ~/.config/i3/scripts/refresh-toggle
 
