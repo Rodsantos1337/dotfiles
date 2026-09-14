@@ -2,7 +2,7 @@
 #
 # install-fedora.sh - provision a fresh Fedora (minimal + i3) machine
 #
-# Fedora port of setup.sh (Arch). No display manager handling: whatever
+# Fedora port of arch/setup.sh (Arch). No display manager handling: whatever
 # Fedora already ships (LightDM/SDDM/GDM from the Spin/netinstall) is kept.
 #
 # Installs every package rod's setup needs via dnf (+ RPM Fusion / COPR /
@@ -11,7 +11,7 @@
 # them into $HOME, dev-installs quill, then flips the dotfiles repo back
 # to private.
 #
-# Usage: ./install-fedora.sh   (run as your normal user; sudo is invoked where needed)
+# Usage: ./fedora/install-fedora.sh   (run as your normal user; sudo is invoked where needed)
 # Idempotent: dnf skips installed pkgs; install.sh skips existing links.
 
 set -euo pipefail

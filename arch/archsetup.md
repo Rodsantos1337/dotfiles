@@ -2,7 +2,7 @@
 
 What `archinstall` (i3 profile) already gives you, what `setup.sh` adds on
 top, and the few things that stay manual. Read once before running
-`./setup.sh` on a fresh machine.
+`./arch/setup.sh` on a fresh machine.
 
 ## Bootstrap (fresh machine)
 
@@ -13,7 +13,7 @@ Before reinstalling:
    Danger Zone → Change visibility)
 2. After archinstall: `sudo pacman -S --needed git`
 3. `git clone https://github.com/Rodsantos1337/dotfiles.git ~/dotfiles`
-4. `~/dotfiles/setup.sh`
+4. `~/dotfiles/arch/setup.sh`
 
 Helium lands in step 3 of setup.sh, so the step-6 `gh auth login -w` has a
 browser to open (and wires the HTTPS credential helper used by the private

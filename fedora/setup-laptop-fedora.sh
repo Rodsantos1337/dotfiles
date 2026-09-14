@@ -10,7 +10,7 @@
 # No display manager handling: whatever Fedora already ships
 # (LightDM/SDDM/GDM from the Spin/netinstall) is kept.
 #
-# Usage: ./setup-laptop-fedora.sh   (run as your normal user; sudo is invoked where needed)
+# Usage: ./fedora/setup-laptop-fedora.sh   (run as your normal user; sudo is invoked where needed)
 # Idempotent: dnf skips installed pkgs; install.sh skips existing links.
 
 set -euo pipefail

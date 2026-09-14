@@ -11,7 +11,7 @@
 # dotfiles and symlinks them into $HOME, dev-installs quill, then flips
 # the dotfiles repo back to private.
 #
-# Usage: ./setup-laptop.sh   (run as your normal user; sudo is invoked where needed)
+# Usage: ./arch/setup-laptop.sh   (run as your normal user; sudo is invoked where needed)
 # Idempotent: pacman/yay use --needed; install.sh skips existing links.
 
 set -euo pipefail
