@@ -10,7 +10,16 @@ RATE_HIGH="144.00"
 RATE_LOW="60.00"
 
 # detect current rate: extract the starred rate (e.g. 144.00* or 60.01*)
-cur_line=$(xrandr --query | grep -A1 "^${OUT} connected" | grep -m1 '\*')
+# guard: no-op on machines without this panel (generic Fedora installs)
+if ! xrandr --query | grep -q "^${OUT} connected"; then
+  notify-send -t 2000 -r 9912 "Refresh Rate" "$OUT not connected"
+  exit 0
+fi
+cur_line=$(xrandr --query | grep -A1 "^${OUT} connected" | grep -m1 '\*' || true)
+if [[ -z "$cur_line" ]]; then
+  notify-send -t 2000 -r 9912 "Refresh Rate" "no modes on $OUT"
+  exit 0
+fi
 # cur_line example: "   1920x1080    144.00*+  60.01 ..."
 cur_rate=$(echo "$cur_line" | grep -oE '[0-9]+\.[0-9]+\*' | head -1 | tr -d '*')
 if [[ "$cur_rate" == 144* ]]; then
@@ -25,7 +34,10 @@ fi
 if ! xrandr --output "$OUT" --mode "$MODE" --rate "$target" 2>/dev/null; then
   # fallback: strip decimal for xrandr matching
   short="${label%Hz}"
-  xrandr --output "$OUT" --mode "$MODE" --rate "$short"
+  if ! xrandr --output "$OUT" --mode "$MODE" --rate "$short" 2>/dev/null; then
+    notify-send -t 2000 -r 9912 "Refresh Rate" "$MODE @ $target unavailable on $OUT"
+    exit 0
+  fi
 fi
 
 notify-send -t 1500 -r 9912 "Refresh Rate" "$label ($MODE @ $OUT)"

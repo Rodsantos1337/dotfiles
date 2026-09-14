@@ -6,7 +6,8 @@ killall -q polybar
 while pgrep -u "$UID" -x polybar >/dev/null; do sleep 0.2; done
 
 if type xrandr >/dev/null 2>&1; then
-  # Tray bar pinned to DP-0 (user preference); everything else is tray-less.
+  # Tray bar pinned to DP-0 where it exists (NVIDIA name; Intel/AMD use
+  # DP-1/HDMI-1/eDP-1 — the fallback below covers those).
   tray_monitor="DP-0"
   connected=$(xrandr --query | awk '/ connected/ {print $1}' | tr '\n' ' ')
   # fallback to primary/first if DP-0 is unplugged

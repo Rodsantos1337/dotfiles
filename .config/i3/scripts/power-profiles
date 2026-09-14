@@ -5,7 +5,12 @@
 set -euo pipefail
 
 if ! command -v powerprofilesctl >/dev/null 2>&1; then
-    printf '%s\n' "power-profiles-daemon not installed (sudo pacman -S power-profiles-daemon)" | \
+    if command -v dnf >/dev/null 2>&1; then
+        hint="power-profiles-daemon not installed (sudo dnf install power-profiles-daemon)"
+    else
+        hint="power-profiles-daemon not installed (sudo pacman -S power-profiles-daemon)"
+    fi
+    printf '%s\n' "$hint" | \
         rofi -dmenu -p "Power profile"
     exit 1
 fi
@@ -22,5 +27,6 @@ choice=$(printf '%s\n' $profiles | rofi -dmenu -i -p "Power profile") || exit 1
 
 if [[ -n "$choice" ]]; then
     powerprofilesctl set "$choice"
-    pkill -SIGRTMIN+2 i3blocks
+    # bar is polybar (polls pp-indicator); no i3blocks to signal
+    pkill -SIGRTMIN+2 i3blocks 2>/dev/null || true
 fi

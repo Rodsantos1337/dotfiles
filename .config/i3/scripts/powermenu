@@ -3,12 +3,60 @@
 # Binds: $mod+Shift+e
 set -euo pipefail
 
-choice=$(printf '%s\n' Lock Logout Suspend Shutdown Reboot | rofi -dmenu -i -p "Power") || exit 1
+RAPL_BASE=/sys/class/powercap/intel-rapl:0
+STOCK_FILE="$HOME/.cache/batt-save.stock"
+BATT_PL1=35000000
+BATT_PL2=60000000
+
+write_rapl() {
+    local file="$1" value="$2"
+    if [ -w "$file" ]; then
+        echo "$value" > "$file"
+    else
+        pkexec sh -c "echo '$value' > '$file'"
+    fi
+}
+
+batt_save() {
+    # remember stock once so Batt-normal restores exactly
+    if [ ! -f "$STOCK_FILE" ]; then
+        mkdir -p "$(dirname "$STOCK_FILE")"
+        {
+            cat "$RAPL_BASE/constraint_0_power_limit_uw" 2>/dev/null || echo 90000000
+            echo
+            cat "$RAPL_BASE/constraint_1_power_limit_uw" 2>/dev/null || echo 120000000
+        } | tr '\n' ' ' > "$STOCK_FILE"
+    fi
+    powerprofilesctl set power-saver 2>/dev/null || true
+    if [ -d "$RAPL_BASE" ]; then
+        write_rapl "$RAPL_BASE/constraint_0_power_limit_uw" "$BATT_PL1"
+        write_rapl "$RAPL_BASE/constraint_1_power_limit_uw" "$BATT_PL2"
+    fi
+    rfkill block bluetooth 2>/dev/null || bluetoothctl power off 2>/dev/null || true
+    notify-send "Batt-save" "power-saver + PL1 35W / PL2 60W, BT off"
+}
+
+batt_normal() {
+    powerprofilesctl set balanced 2>/dev/null || true
+    if [ -f "$STOCK_FILE" ]; then
+        read -r pl1 pl2 < "$STOCK_FILE"
+        if [ -d "$RAPL_BASE" ]; then
+            write_rapl "$RAPL_BASE/constraint_0_power_limit_uw" "${pl1:-90000000}"
+            write_rapl "$RAPL_BASE/constraint_1_power_limit_uw" "${pl2:-120000000}"
+        fi
+    fi
+    rfkill unblock bluetooth 2>/dev/null || bluetoothctl power on 2>/dev/null || true
+    notify-send "Batt-normal" "balanced + stock power limits, BT on"
+}
+
+choice=$(printf '%s\n' Lock Logout Suspend Batt-save Batt-normal Shutdown Reboot | rofi -dmenu -i -p "Power") || exit 1
 
 case "$choice" in
     Lock)     i3lock ;;
     Logout)   i3-msg exit ;;
     Suspend)  systemctl suspend ;;
+    Batt-save)   batt_save ;;
+    Batt-normal) batt_normal ;;
     Shutdown) systemctl poweroff ;;
     Reboot)   systemctl reboot ;;
 esac

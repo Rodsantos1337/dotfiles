@@ -46,7 +46,11 @@ exec --no-startup-id xsettingsd
 # xrandr or an external tool if a fixed layout is needed
 
 # wallpaper (image passed twice = one copy per monitor)
-exec --no-startup-id sleep 1 && feh --bg-fill ~/Pictures/bg.jpg ~/Pictures/bg.jpg
+# switch: uncomment the line you want (default: new.jpg)
+# set $bg ~/Pictures/bg.jpg
+set $bg ~/Pictures/new.jpg
+# set $bg ~/Pictures/bg-old.jpg
+exec --no-startup-id sleep 1 && feh --bg-fill $bg $bg
 
 # flat mouse acceleration profile
 exec --no-startup-id ~/.config/disable-mouse-accel.sh
@@ -125,11 +129,12 @@ bindsym $mod+v split v
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
-# fan control (fans-g5-kf) + keyboard backlight (kbl)
-bindsym $mod+Shift+f exec --no-startup-id fans max && notify-send "Fans" "MAX - turbine mode"
-bindsym $mod+Control+f exec --no-startup-id fans auto && notify-send "Fans" "auto (thermal guard)"
-bindsym $mod+Mod1+f exec --no-startup-id notify-send "Fan status" "$(fans status 2>/dev/null | tr '\n' ' ')"
-bindsym $mod+b exec --no-startup-id kbl
+# fan control (fans-g5-kf, Gigabyte G5 KF only) + keyboard backlight (kbl)
+# guarded: no-op with a notice on machines without the vendor tools
+bindsym $mod+Shift+f exec --no-startup-id bash -c 'command -v fans >/dev/null && fans max && notify-send "Fans" "MAX - turbine mode" || notify-send "Fans" "not installed (G5 KF vendor tools)"'
+bindsym $mod+Control+f exec --no-startup-id bash -c 'command -v fans >/dev/null && fans auto && notify-send "Fans" "auto (thermal guard)" || notify-send "Fans" "not installed (G5 KF vendor tools)"'
+bindsym $mod+Mod1+f exec --no-startup-id bash -c 'command -v fans >/dev/null && notify-send "Fan status" "$(fans status 2>/dev/null | tr '"'"'\n'"'"' '"'"' '"'"')" || notify-send "Fan status" "fans not installed"'
+bindsym $mod+b exec --no-startup-id bash -c 'command -v kbl >/dev/null && kbl || notify-send "kbl" "not installed (G5 KF vendor tools)"'
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking

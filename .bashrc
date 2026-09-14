@@ -18,6 +18,14 @@ if [ -d "$HOME/.local/bin" ]; then
         *) PATH="$HOME/.local/bin:$PATH" ;;
     esac
 fi
+
+# opencode (installed to ~/.opencode/bin by https://opencode.ai/install)
+if [ -d "$HOME/.opencode/bin" ]; then
+    case ":$PATH" in
+        *":$HOME/.opencode/bin:"*) ;;
+        *) PATH="$HOME/.opencode/bin:$PATH" ;;
+    esac
+fi
 export TERMINAL=alacritty
 export EDITOR="codium --wait"
 export VISUAL="codium --wait"
@@ -28,9 +36,17 @@ if command -v zoxide >/dev/null 2>&1; then
 fi
 
 # fzf: Ctrl+R = history, Ctrl+T = files, Alt+C = cd to dir
-if [[ -f /usr/share/fzf/key-bindings.bash ]]; then
-    source /usr/share/fzf/key-bindings.bash
-fi
-if [[ -f /usr/share/fzf/completion.bash ]]; then
-    source /usr/share/fzf/completion.bash
-fi
+# Fedora ships them under shell/, Arch directly under fzf/
+for _fzf_base in /usr/share/fzf/shell /usr/share/fzf; do
+    [[ -f "$_fzf_base/key-bindings.bash" ]] && source "$_fzf_base/key-bindings.bash"
+    [[ -f "$_fzf_base/completion.bash" ]] && source "$_fzf_base/completion.bash"
+done
+unset _fzf_base
+
+# power-savers: tailscale + syncthing manual toggles (off by default)
+tails-on() { sudo systemctl start tailscaled.service && tailscale up; }
+tails-off() { tailscale down 2>/dev/null; sudo systemctl stop tailscaled.service; }
+sync-on() { systemctl --user start syncthing.service; }
+sync-off() { systemctl --user stop syncthing.service; }
+share-on() { tails-on && sync-on; }
+share-off() { tails-off; sync-off; }

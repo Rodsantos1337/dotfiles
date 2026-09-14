@@ -6,6 +6,10 @@
 # scratch/backup files
 *.bak*
 
+# python bytecode
+__pycache__/
+*.pyc
+
 # quill session notes (harness-managed, not for tracking)
 .quill/
 
