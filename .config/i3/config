@@ -37,7 +37,7 @@ exec --no-startup-id /usr/bin/dunst --config ~/.config/dunst/dunstrc
 exec --no-startup-id picom --config ~/.config/picom/picom.conf
 
 # status bar: polybar replaces i3bar (Everforest Dim, bottom)
-exec --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # X11 settings daemon (cursor size/theme for GTK apps)
 exec --no-startup-id xsettingsd
@@ -78,12 +78,11 @@ tiling_drag modifier
 # Set inner/outer gaps
 # (ported from the old EndeavourOS config — clean tiling look)
 gaps inner 8
-gaps outer 0
+gaps outer 4
 
-# 1px border, NO title bar (pixel style = border without the title text)
-# focused window border shows the Everforest green (#829181)
-default_border pixel 1
-default_floating_border pixel 1
+# No border, rounded corners via picom
+default_border none
+default_floating_border none
 
 # keyboard layout: pt-pt (fallback; system-wide layout set via localectl)
 exec --no-startup-id setxkbmap -layout pt
@@ -271,7 +270,7 @@ set $ever_sel      #5a6c7e
 
 # define colors for windows:
 #class                      border      bground     text        indicator   child_border
-client.focused              $ever_green $ever_bg    $ever_fg    $ever_bg    $ever_bg
+client.focused              $ever_black $ever_bg    $ever_fg    $ever_bg    $ever_bg
 client.unfocused            $ever_black $ever_bg    $ever_black $ever_bg    $ever_bg
 client.focused_inactive     $ever_black $ever_bg    $ever_black $ever_bg    $ever_bg
 client.urgent               $ever_red   $ever_red   $ever_fg    $ever_red   $ever_red

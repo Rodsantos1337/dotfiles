@@ -42,7 +42,6 @@ MAPPINGS=(
   ".config/nvim"
   ".config/VSCodium"
   ".config/qutebrowser/config.py"
-  ".config/quickshell"
   ".vscode-oss/argv.json"
   ".config/xsettingsd"
   ".config/disable-mouse-accel.sh"
@@ -125,7 +124,6 @@ verify_links() {
     ".config/VSCodium" ".vscode-oss/argv.json" ".config/xsettingsd"
     ".config/disable-mouse-accel.sh"
     ".local/share/themes/Everforest-Green-Dark-Dim"
-    ".config/quickshell"
   )
 
   local fail=0
