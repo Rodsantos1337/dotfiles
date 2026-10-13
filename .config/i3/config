@@ -42,8 +42,13 @@ exec --no-startup-id ~/.config/polybar/launch.sh
 # X11 settings daemon (cursor size/theme for GTK apps)
 exec --no-startup-id xsettingsd
 
-# monitors: left to i3/xrandr auto-detect (per-machine); arrange with
-# xrandr or an external tool if a fixed layout is needed
+# load Xresources (Xft smoothing, cursor size) so sharpness survives re-login
+exec --no-startup-id xrdb -merge ~/.Xresources
+
+# monitors: per-machine (see monitors-desktop / monitors-laptop).
+# The active variant is symlinked to ~/.config/i3/local by install.sh
+# (--desktop / --laptop, default: hostname heuristic). Included below
+# via `include ~/.config/i3/local*` at the end of this file.
 
 # wallpaper (image passed twice = one copy per monitor)
 # switch: uncomment the line you want (default: new.jpg)
@@ -144,16 +149,15 @@ bindsym $mod+e layout toggle split
 ## App shortcuts (imported from the old EndeavourOS config)
 bindsym $mod+w exec --no-startup-id zen-browser
 bindsym $mod+n exec --no-startup-id /usr/bin/thunar
-# mod+o: floating "vault agent" terminal in ~/vault (960x640, centered)
-# (obsidian kept here for reference — currently broken)
-#bindsym $mod+o exec --no-startup-id /usr/bin/obsidian
-# bash -c wrapper so $HOME expands at exec time (i3 doesn't expand env vars)
-bindsym $mod+o exec --no-startup-id bash -c 'exec alacritty --class AlacrittyVault --working-directory "$HOME/vault"'
-for_window [class="^AlacrittyVault$"] floating enable, resize set 960 640, move position center
 bindsym $mod+x exec --no-startup-id codium
-bindsym $mod+Shift+o exec --no-startup-id bash -c 'exec codium "$HOME/vault"'
+# mod+o: scratchpad terminal with ttt in vault
+bindsym $mod+o exec --no-startup-id ~/.config/i3/scripts/ttt-vault-toggle
+# mod+Shift+t: floating terminal with ttt in ~/vault
+bindsym $mod+Shift+t exec --no-startup-id ~/.config/i3/scripts/ttt-toggle
 
 bindsym $mod+Shift+x exec --no-startup-id ~/.config/i3/scripts/refresh-toggle
+bindsym $mod+Shift+g exec --no-startup-id ~/.config/i3/scripts/gaming-toggle
+for_window [class="ttt-vault"] floating enable, resize set 960 640, move position center, move scratchpad
 
 # Screenshots (flameshot)
 exec --no-startup-id flameshot

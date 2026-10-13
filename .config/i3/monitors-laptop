@@ -1,0 +1,4 @@
+# monitors (laptop, Gigabyte G5 KF): let i3/xrandr auto-detect eDP-1.
+# No fixed layout here - arrange with xrandr/arandr if an external
+# monitor is plugged in. Primary panel: eDP-1 1920x1080@144.
+exec --no-startup-id xrandr --output eDP-1 --primary --mode 1920x1080 --rate 144.00

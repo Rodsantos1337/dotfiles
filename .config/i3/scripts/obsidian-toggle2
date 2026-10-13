@@ -1,0 +1,11 @@
+#!/bin/bash
+# Check if any Obsidian window exists
+if i3-msg -t get_tree | grep -q '"class":"md.obsidian.Obsidian"'; then
+    i3-msg 'scratchpad show' >/dev/null 2>&1
+else
+    # Launch Obsidian
+    ~/.local/opt/obsidian/AppRun --path "$HOME/vault" >/dev/null 2>&1 &
+    # Give it a moment to appear
+    sleep 2
+    i3-msg 'scratchpad show' >/dev/null 2>&1
+fi

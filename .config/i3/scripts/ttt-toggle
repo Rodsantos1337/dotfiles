@@ -1,0 +1,11 @@
+#!/bin/bash
+# Check if any Alacritty window exists
+if i3-msg -t get_tree | grep -q '"class":"Alacritty"'; then
+    i3-msg 'scratchpad show' >/dev/null 2>&1
+else
+    # Launch alacritty with ttt in ~/vault
+    alacritty --working-directory="$HOME/vault" -e ttt >/dev/null 2>&1 &
+    # Give the terminal a moment to appear
+    sleep 2
+    i3-msg 'scratchpad show' >/dev/null 2>&1
+fi

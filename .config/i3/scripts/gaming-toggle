@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# gaming-toggle - manual max-performance mode for fullscreen (mod+f) gaming
+# ON:  hides all polybar(s), kills picom (compositor bypass)
+# OFF: restarts picom, shows polybar(s)
+# Note: picom already auto-unredirects fullscreen via unredir-if-possible=true,
+# this is for extra headroom / to also hide polybar.
+# Binds: $mod+Shift+g (see i3 config)
+# Notifies via dunst with replace id -r 9913
+set -euo pipefail
+
+PICOM_CFG="$HOME/.config/picom/picom.conf"
+POLY_LAUNCH="$HOME/.config/polybar/launch.sh"
+
+if pgrep -x picom >/dev/null; then
+  # --- enter gaming mode ---
+  polybar-msg cmd hide 2>/dev/null || true
+  pkill -x picom || true
+  notify-send -t 1500 -r 9913 "Gaming Mode" "ON - picom off, polybar hidden"
+else
+  # --- exit gaming mode ---
+  nohup picom --config "$PICOM_CFG" >/tmp/picom.log 2>&1 &
+  # small delay so picom is up before bars redraw
+  sleep 0.5
+  if polybar-msg cmd show 2>/dev/null; then
+    : # bars were hidden, now shown
+  else
+    # fallback: bars crashed/missing, relaunch per-monitor
+    bash "$POLY_LAUNCH" &
+  fi
+  notify-send -t 1500 -r 9913 "Gaming Mode" "OFF - picom on, polybar visible"
+fi

@@ -1,0 +1,23 @@
+#!/bin/bash
+# ttt-vault-toggle - Toggle ttt in vault scratchpad terminal
+
+INSTANCE="ttt-vault"
+VAULT_DIR="$HOME/vault"
+
+# Check if our specific ttt-vault instance exists in scratchpad
+if i3-msg -t get_tree | grep -q "\"class\":\"$INSTANCE\""; then
+    # Instance exists - show THAT specific window from scratchpad
+    i3-msg "[class=\"$INSTANCE\"] scratchpad show" >/dev/null 2>&1
+    # Re-center on current workspace
+    sleep 0.1
+    i3-msg "[class=\"$INSTANCE\"] move position center" >/dev/null 2>&1
+else
+    # Launch new instance with ttt . to explicitly open vault dir
+    alacritty --class="$INSTANCE,$INSTANCE" --working-directory="$VAULT_DIR" -e ttt . >/dev/null 2>&1 &
+    # Wait for window to appear
+    sleep 2
+    i3-msg "[class=\"$INSTANCE\"] scratchpad show" >/dev/null 2>&1
+    # Center the newly created window
+    sleep 0.1
+    i3-msg "[class=\"$INSTANCE\"] move position center" >/dev/null 2>&1
+fi

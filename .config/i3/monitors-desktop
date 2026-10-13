@@ -1,0 +1,2 @@
+# monitors (desktop): DP-0 main right 1080p@74.92 + HDMI-0 left 1360x768@60 native sharp
+exec --no-startup-id xrandr --output DP-0 --primary --mode 1920x1080 --rate 74.92 --output HDMI-0 --mode 1360x768 --rate 60.02 --left-of DP-0
