@@ -5,7 +5,7 @@
 # Symlinks config files from this repo into $HOME. It does NOT install
 # any packages - run the arch/ or fedora/ setup script for provisioning.
 #
-# Usage:  ~/dotfiles/install.sh [--desktop|--laptop]
+# Usage:  ~/dotfiles/install.sh [--desktop|--laptop] [--no-verify]
 # Idempotent: safe to re-run. Existing files are backed up first.
 # --desktop / --laptop selects the i3 per-machine monitor variant
 # (~/.config/i3/local -> monitors-desktop / monitors-laptop).
@@ -42,6 +42,7 @@ MAPPINGS=(
   ".config/nvim"
   ".config/VSCodium"
   ".config/qutebrowser/config.py"
+  ".config/quickshell"
   ".vscode-oss/argv.json"
   ".config/xsettingsd"
   ".config/disable-mouse-accel.sh"
@@ -111,14 +112,69 @@ link_local_variant() {
   echo "link: .config/i3/local -> monitors-$variant"
 }
 
+# Verify critical symlinks point to dotfiles repo
+verify_links() {
+  local verify_rels=(
+    ".bashrc" ".xprofile" ".Xresources" ".fehbg"
+    "Pictures/bg.jpg" "Pictures/bg-old.jpg" "Pictures/new.jpg"
+    ".config/i3/config" ".config/i3/scripts"
+    ".config/alacritty" ".config/dunst" ".config/flameshot/flameshot.ini"
+    ".config/fontconfig" ".config/gtk-3.0/settings.ini" ".config/gtk-4.0/settings.ini"
+    ".config/opencode/themes" ".config/opencode/tui.json"
+    ".config/picom" ".config/polybar" ".config/rofi" ".config/nvim"
+    ".config/VSCodium" ".vscode-oss/argv.json" ".config/xsettingsd"
+    ".config/disable-mouse-accel.sh"
+    ".local/share/themes/Everforest-Green-Dark-Dim"
+    ".config/quickshell"
+  )
+
+  local fail=0
+  for rel in "${verify_rels[@]}"; do
+    local dest="$HOME/$rel"
+    if [[ -L "$dest" && "$(readlink "$dest")" == "$DOTFILES_DIR/"* ]]; then
+      echo "ok:   $rel -> $(readlink "$dest")"
+    else
+      echo "MISS: $rel (not linked to \$DOTFILES_DIR)" >&2
+      fail=1
+    fi
+  done
+
+  if [[ $fail -ne 0 ]]; then
+    echo "warning: some configs are not linked - re-run $DOTFILES_DIR/install.sh" >&2
+  fi
+}
+
+# Check for stale literal /home/<user>/ paths in deployed configs
+check_stale_paths() {
+  local dirs=(
+    "$HOME/.config/i3"
+    "$HOME/.config/polybar"
+    "$HOME/.config/alacritty"
+    "$HOME/.fehbg"
+  )
+  local found=0
+  for dir in "${dirs[@]}"; do
+    while IFS= read -r -d '' file; do
+      if grep -qE "/home/[A-Za-z0-9._-]+/" "$file"; then
+        echo "STALE PATH in $file:" >&2
+        grep -nE "/home/[A-Za-z0-9._-]+/" "$file" >&2
+        found=1
+      fi
+    done < <(find "$dir" -type f \( -name "*.conf" -o -name "config" -o -name ".fehbg" -o -name "*.sh" -o -name "*.ini" \) -print0 2>/dev/null)
+  done
+  return $found
+}
+
 main() {
   local variant=""
+  local do_verify=true
   for arg in "$@"; do
     case "$arg" in
       --desktop) variant="desktop" ;;
       --laptop) variant="laptop" ;;
+      --no-verify) do_verify=false ;;
       -h|--help)
-        echo "Usage: install.sh [--desktop|--laptop]"
+        echo "Usage: install.sh [--desktop|--laptop] [--no-verify]"
         return 0
         ;;
       *)
@@ -143,6 +199,12 @@ main() {
     link_one "$mapping"
   done
   link_local_variant "$variant"
+
+  # Verify critical symlinks point to dotfiles repo
+  if [[ "$do_verify" == true ]]; then
+    verify_links
+    check_stale_paths
+  fi
 
   echo
   echo "Done. Log out/in (or '\$mod+Shift+r' in i3) to apply."
