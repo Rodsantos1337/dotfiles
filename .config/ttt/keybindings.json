@@ -1,0 +1,8 @@
+[
+  { "key": "alt+shift+m", "command": "menubar.toggle" },
+  { "key": "ctrl+b", "command": "sidebar.toggle" },
+  { "key": "ctrl+k b", "command": "panel.toggle" },
+  { "key": "ctrl+k ctrl+b", "command": "border.cycle" },
+  { "key": "ctrl+k ctrl+g", "command": "gutter.cycle" },
+  { "key": "ctrl+k ctrl+l", "command": "editor.toggleLineNumbers" }
+]

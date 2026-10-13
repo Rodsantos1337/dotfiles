@@ -21,8 +21,8 @@
     "trimTrailingWhitespace": false,
     "focusOnOpen": false,
     "gutterStyle": "minimal",
-    "borderStyle": "none",
-    "menuBar": false,
+    "borderStyle": "default",
+    "menuBar": true,
     "sidebarVisible": false,
     "bracketPairColorization": false,
     "transparentBackground": false
