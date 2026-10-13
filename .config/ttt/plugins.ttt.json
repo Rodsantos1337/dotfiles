@@ -36,20 +36,5 @@
         "spell.*"
       ]
     }
-  },
-  {
-    "name": "lsp-markdown",
-    "displayName": "Markdown Language Server",
-    "repo": "https://github.com/eugenioenko/ttt-plugins",
-    "path": "lsp-markdown",
-    "version": "0.1.0",
-    "enabled": true,
-    "permissions": {
-      "network.http": false,
-      "settings": true,
-      "settings_keys": [
-        "lsp.*"
-      ]
-    }
   }
 ]

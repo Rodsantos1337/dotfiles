@@ -1,2 +1,8 @@
 Xcursor.theme: Adwaita
-Xcursor.size: 14
+Xcursor.size: 24
+Xft.dpi: 96
+Xft.antialias: true
+Xft.hinting: true
+Xft.hintstyle: hintslight
+Xft.rgba: rgb
+Xft.lcdfilter: lcddefault
