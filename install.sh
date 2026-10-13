@@ -22,6 +22,7 @@ MAPPINGS=(
   ".xprofile"
   ".Xresources"
   ".bashrc"
+  ".zshrc"
   ".fehbg"
   "wallpapers/bg.jpg:Pictures/bg.jpg"
   "wallpapers/bg-old.jpg:Pictures/bg-old.jpg"
@@ -121,7 +122,7 @@ link_local_variant() {
 # Verify critical symlinks point to dotfiles repo
 verify_links() {
   local verify_rels=(
-    ".bashrc" ".xprofile" ".Xresources" ".fehbg"
+    ".bashrc" ".zshrc" ".xprofile" ".Xresources" ".fehbg"
     "Pictures/bg.jpg" "Pictures/bg-old.jpg" "Pictures/new.jpg"
     ".config/i3/config" ".config/i3/scripts"
     ".config/alacritty" ".config/dunst" ".config/flameshot/flameshot.ini"
