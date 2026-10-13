@@ -89,6 +89,10 @@ for _fzf_base in /usr/share/fzf/shell /usr/share/fzf; do
 done
 unset _fzf_base
 
+# zsh plugins (installed via dnf)
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+
 # Prompt (simple, like bash PS1)
 PROMPT='%F{green}%n@%m%f:%F{blue}%~%f%# '
 
