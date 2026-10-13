@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "theme": "everforest-dim",
+  "appearance": {
+    "icons": "none",
+    "chevrons": {
+      "collapsed": "▶",
+      "expanded": "▼"
+    }
+  },
+  "editor": {
+    "tabSize": 4,
+    "insertSpaces": true,
+    "wordWrap": false,
+    "diffMode": "split",
+    "diffContext": "changes",
+    "diffWordWrap": false,
+    "lineNumbers": false,
+    "formatOnSave": false,
+    "insertFinalNewline": true,
+    "trimTrailingWhitespace": false,
+    "focusOnOpen": false,
+    "gutterStyle": "minimal",
+    "borderStyle": "none",
+    "menuBar": false,
+    "sidebarVisible": false,
+    "bracketPairColorization": false,
+    "transparentBackground": false
+  },
+  "search": {
+    "debounce": 350
+  },
+  "explorer": {
+    "showHidden": true,
+    "showGitIgnored": true,
+    "gitStatusColors": true,
+    "dimStagedGitColors": false,
+    "autoReveal": false
+  },
+  "git": {
+    "fileView": "list"
+  },
+  "terminal": {
+    "scrollback": 1000
+  },
+  "lsp": {
+    "servers": {
+      "markdown": {
+        "command": [
+          "marksman",
+          "server"
+        ]
+      }
+    },
+    "saveOnRename": false,
+    "hoverDelay": 500
+  },
+  "autocomplete": {
+    "enabled": true,
+    "autoSuggest": true,
+    "debounce": 150,
+    "signatureHelp": true
+  },
+  "markdown": {
+    "wrapWidth": 80
+  },
+  "image": {
+    "protocol": "auto"
+  }
+}

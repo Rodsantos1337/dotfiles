@@ -1,0 +1,19 @@
+{
+  "name": "ai-quick-edit",
+  "displayName": "AI Quick Edit",
+  "description": "Ctrl+P on selection → AI transform (explain, translate, elaborate, tldr, custom) with preview & accept/replace/append",
+  "version": "1.0.0",
+  "author": "Rodrigo",
+  "entry": "init.lua",
+  "api": 1,
+  "permissions": {
+    "editor.read": true,
+    "editor.write": true,
+    "keybindings": true,
+    "commands": true,
+    "panel.drawer": true,
+    "network.http": ["localhost", "api.openai.com", "api.anthropic.com"],
+    "system.exec": true,
+    "settings": true
+  }
+}
