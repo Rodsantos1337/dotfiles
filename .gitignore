@@ -13,6 +13,9 @@ __pycache__/
 # node_modules (never commit)
 node_modules/
 
+# ttt runtime state (machine-specific)
+.config/ttt/state.json
+
 # quill session notes (harness-managed, not for tracking)
 .quill/
 
