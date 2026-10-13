@@ -34,8 +34,7 @@ MAPPINGS=(
   ".config/fontconfig"
   ".config/gtk-3.0/settings.ini"
   ".config/gtk-4.0/settings.ini"
-  ".config/opencode/themes"
-  ".config/opencode/tui.json"
+  ".config/opencode"
   ".config/picom"
   ".config/polybar"
   ".config/rofi"
@@ -46,6 +45,13 @@ MAPPINGS=(
   ".vscode-oss/argv.json"
   ".config/xsettingsd"
   ".config/disable-mouse-accel.sh"
+  ".config/mimeapps.list"
+  ".config/user-dirs.dirs"
+  ".config/user-dirs.locale"
+  ".config/QtProject.conf"
+  ".config/gamemode.ini"
+  ".config/systemd"
+  ".gitconfig"
   "themes/Everforest-Green-Dark-Dim:.local/share/themes/Everforest-Green-Dark-Dim"
 )
 
@@ -120,10 +126,12 @@ verify_links() {
     ".config/i3/config" ".config/i3/scripts"
     ".config/alacritty" ".config/dunst" ".config/flameshot/flameshot.ini"
     ".config/fontconfig" ".config/gtk-3.0/settings.ini" ".config/gtk-4.0/settings.ini"
-    ".config/opencode/themes" ".config/opencode/tui.json"
+    ".config/opencode"
     ".config/picom" ".config/polybar" ".config/rofi" ".config/ttt" ".config/nvim"
     ".config/VSCodium" ".vscode-oss/argv.json" ".config/xsettingsd"
-    ".config/disable-mouse-accel.sh"
+    ".config/disable-mouse-accel.sh" ".config/mimeapps.list" ".config/user-dirs.dirs"
+    ".config/user-dirs.locale" ".config/QtProject.conf" ".config/gamemode.ini"
+    ".config/systemd" ".gitconfig"
     ".local/share/themes/Everforest-Green-Dark-Dim"
   )
 
