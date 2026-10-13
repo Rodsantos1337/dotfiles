@@ -92,7 +92,7 @@ auth_tailscale() {
   fi
 }
 
-# Dev-install quillcode (pi fork, public repo)
+# Dev-install quillcode (pi fork, public repo) - canonical dir is ~/base/quillcode
 install_quillcode() {
   local quillcode_dir="$HOME/base/quillcode"
   if [[ ! -d "$quillcode_dir/.git" ]]; then
@@ -112,6 +112,26 @@ install_quillcode() {
     sudo npm install -g cline
   else
     log_warn "npm not found - skipping cline install"
+  fi
+}
+
+# Install ttt editor (single static binary to ~/.local/bin).
+# Upstream has no dnf/copr package; official method is the install script.
+# Idempotent: skips when `ttt --version` already works.
+install_ttt() {
+  if command -v ttt >/dev/null 2>&1 && ttt --version >/dev/null 2>&1; then
+    log_info "ttt already installed ($(ttt --version 2>/dev/null | head -n 1))"
+    return 0
+  fi
+  log_step "installing ttt editor"
+  if ! curl -sSfL https://raw.githubusercontent.com/eugenioenko/ttt/main/install.sh | sh; then
+    log_warn "ttt install failed - mod+o vault scratchpad will not work"
+    return 0
+  fi
+  if command -v ttt >/dev/null 2>&1; then
+    log_ok "ttt installed ($(ttt --version 2>/dev/null | head -n 1))"
+  else
+    log_warn "ttt installed but not on PATH - ensure ~/.local/bin is exported (see .xprofile)"
   fi
 }
 

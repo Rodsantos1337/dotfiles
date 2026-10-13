@@ -33,6 +33,7 @@ VARIANT=""
 BROWSER="helium"
 PRIVATIZE=true
 VERIFY=true
+INSTALL_QUILL=true
 
 for arg in "$@"; do
   case "$arg" in
@@ -43,6 +44,7 @@ for arg in "$@"; do
     --browser=*) BROWSER="${arg#*=}" ;;
     --no-privatize) PRIVATIZE=false ;;
     --no-verify) VERIFY=false ;;
+    --no-quill) INSTALL_QUILL=false ;;
     -h|--help)
       sed -n '2,20p' "$0" | sed 's/^# //; s/^#//'
       exit 0
@@ -224,7 +226,10 @@ esac
 # -----------------------------------------------------------------------------
 setup_git_identity
 auth_gh
-install_quillcode
+if [[ "$INSTALL_QUILL" == true ]]; then
+  install_quillcode
+fi
+install_ttt
 install_llmserve
 auth_tailscale
 

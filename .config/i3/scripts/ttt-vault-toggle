@@ -1,23 +1,76 @@
 #!/bin/bash
-# ttt-vault-toggle - Toggle ttt in vault scratchpad terminal
+# ttt-vault-toggle - Toggle ttt in ~/vault as a scratchpad terminal (mod+o).
+set -u
 
 INSTANCE="ttt-vault"
 VAULT_DIR="$HOME/vault"
 
-# Check if our specific ttt-vault instance exists in scratchpad
-if i3-msg -t get_tree | grep -q "\"class\":\"$INSTANCE\""; then
-    # Instance exists - show THAT specific window from scratchpad
-    i3-msg "[class=\"$INSTANCE\"] scratchpad show" >/dev/null 2>&1
-    # Re-center on current workspace
-    sleep 0.1
-    i3-msg "[class=\"$INSTANCE\"] move position center" >/dev/null 2>&1
-else
-    # Launch new instance with ttt . to explicitly open vault dir
-    alacritty --class="$INSTANCE,$INSTANCE" --working-directory="$VAULT_DIR" -e ttt . >/dev/null 2>&1 &
-    # Wait for window to appear
-    sleep 2
-    i3-msg "[class=\"$INSTANCE\"] scratchpad show" >/dev/null 2>&1
-    # Center the newly created window
-    sleep 0.1
-    i3-msg "[class=\"$INSTANCE\"] move position center" >/dev/null 2>&1
+# i3 spawns this script with a minimal PATH (no ~/.local/bin), so resolve
+# tools via absolute fallback before giving up.
+resolve_cmd() {
+    local name="$1" fallback="$2"
+    local found
+    found="$(command -v "$name" 2>/dev/null)" && { echo "$found"; return 0; }
+    if [[ -n "$fallback" && -x "$fallback" ]]; then
+        echo "$fallback"
+        return 0
+    fi
+    return 1
+}
+
+I3_MSG="$(resolve_cmd i3-msg /usr/bin/i3-msg)" || {
+    command -v notify-send >/dev/null 2>&1 && notify-send "ttt-vault" "i3-msg not found in PATH"
+    echo "ttt-vault-toggle: i3-msg not found in PATH" >&2
+    exit 1
+}
+ALACRITTY="$(resolve_cmd alacritty /usr/bin/alacritty)" || {
+    command -v notify-send >/dev/null 2>&1 && notify-send "ttt-vault" "alacritty not found in PATH"
+    echo "ttt-vault-toggle: alacritty not found in PATH" >&2
+    exit 1
+}
+TTT="$(resolve_cmd ttt "$HOME/.local/bin/ttt")" || {
+    command -v notify-send >/dev/null 2>&1 && notify-send "ttt-vault" "ttt not found in PATH"
+    echo "ttt-vault-toggle: ttt not found in PATH" >&2
+    exit 1
+}
+
+if [[ ! -d "$VAULT_DIR" ]]; then
+    command -v notify-send >/dev/null 2>&1 && notify-send "ttt-vault" "vault dir missing: $VAULT_DIR"
+    echo "ttt-vault-toggle: vault dir missing: $VAULT_DIR" >&2
+    exit 1
 fi
+
+tree_has_instance() {
+    "$I3_MSG" -t get_tree 2>/dev/null | grep -q "\"class\":\"$INSTANCE\""
+}
+
+center_on_workspace() {
+    # Best-effort: re-center after showing so it follows the active workspace.
+    "$I3_MSG" "[class=\"$INSTANCE\"] move position center" >/dev/null 2>&1
+}
+
+if tree_has_instance; then
+    # Instance exists (visible or hidden) - toggle THAT specific window.
+    "$I3_MSG" "[class=\"$INSTANCE\"] scratchpad show" >/dev/null 2>&1
+    center_on_workspace
+    exit 0
+fi
+
+# Launch new instance: ttt opening the vault dir explicitly.
+"$ALACRITTY" --class="$INSTANCE,$INSTANCE" --working-directory="$VAULT_DIR" -e "$TTT" . >/dev/null 2>&1 &
+disown 2>/dev/null || true
+
+# Poll for the window instead of a blind sleep (up to ~4s).
+for _ in $(seq 1 40); do
+    tree_has_instance && break
+    sleep 0.1
+done
+
+if ! tree_has_instance; then
+    command -v notify-send >/dev/null 2>&1 && notify-send "ttt-vault" "failed to launch (see journalctl / terminal)"
+    echo "ttt-vault-toggle: window class '$INSTANCE' never appeared" >&2
+    exit 1
+fi
+
+"$I3_MSG" "[class=\"$INSTANCE\"] scratchpad show" >/dev/null 2>&1
+center_on_workspace

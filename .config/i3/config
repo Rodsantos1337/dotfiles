@@ -156,7 +156,7 @@ bindsym $mod+Shift+t exec --no-startup-id ~/.config/i3/scripts/ttt-toggle
 
 bindsym $mod+Shift+x exec --no-startup-id ~/.config/i3/scripts/refresh-toggle
 bindsym $mod+Shift+g exec --no-startup-id ~/.config/i3/scripts/gaming-toggle
-for_window [class="ttt-vault"] floating enable, resize set 960 640, move position center, move scratchpad
+for_window [class="ttt-vault"] floating enable, resize set 1200 800, move position center, move scratchpad
 
 # Screenshots (flameshot)
 exec --no-startup-id flameshot

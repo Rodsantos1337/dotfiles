@@ -1,5 +1,20 @@
 #!/bin/sh
 
-export XCURSOR_SIZE=14
+export XCURSOR_SIZE=24
+# Session PATH: i3 inherits this at X login. ttt lives in ~/.local/bin,
+# which shells add via .zshrc/.bashrc but i3 never sources.
+if [ -d "$HOME/.local/bin" ]; then
+    case ":$PATH:" in
+        *":$HOME/.local/bin:"*) ;;
+        *) PATH="$HOME/.local/bin:$PATH" ;;
+    esac
+fi
+if [ -d "$HOME/.opencode/bin" ]; then
+    case ":$PATH:" in
+        *":$HOME/.opencode/bin:"*) ;;
+        *) PATH="$HOME/.opencode/bin:$PATH" ;;
+    esac
+fi
+export PATH
 setxkbmap -layout pt
 [ -f ~/.Xresources ] && xrdb -merge ~/.Xresources
