@@ -31,7 +31,6 @@ set -euo pipefail
 DISTRO=""
 VARIANT=""
 BROWSER="helium"
-INSTALL_QUILL=true
 PRIVATIZE=true
 VERIFY=true
 
@@ -42,7 +41,6 @@ for arg in "$@"; do
     --desktop)  VARIANT="desktop" ;;
     --laptop)   VARIANT="laptop" ;;
     --browser=*) BROWSER="${arg#*=}" ;;
-    --no-quill) INSTALL_QUILL=false ;;
     --no-privatize) PRIVATIZE=false ;;
     --no-verify) VERIFY=false ;;
     -h|--help)
@@ -226,6 +224,7 @@ esac
 # -----------------------------------------------------------------------------
 setup_git_identity
 auth_gh
+install_quillcode
 auth_tailscale
 
 sync_dotfiles
@@ -243,10 +242,6 @@ enable_common_services
 enable_display_manager "$DISTRO"
 enable_laptop_services "$DISTRO"
 disable_firewalld_if_fedora "$DISTRO"
-
-if [[ "$INSTALL_QUILL" == true ]]; then
-  install_quill
-fi
 
 if [[ "$PRIVATIZE" == true ]]; then
   privatize_dotfiles

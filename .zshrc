@@ -45,8 +45,8 @@ alias ll='ls -la'
 alias la='ls -A'
 
 # quillcode aliases
-alias quillcode="/home/rod-desktop/base/pi/quillcode-test.sh"
-alias test-quillcode="/home/rod-desktop/base/pi/test.sh"
+alias quillcode="/home/rod-desktop/base/quillcode/quillcode-test.sh"
+alias test-quillcode="/home/rod-desktop/base/quillcode/test.sh"
 
 # power-savers: tailscale + syncthing manual toggles (off by default)
 tails-on() { sudo systemctl start tailscaled.service && tailscale up; }

@@ -92,19 +92,26 @@ auth_tailscale() {
   fi
 }
 
-# Dev-install quill (private repo, requires gh auth)
-install_quill() {
-  local quill_dir="$HOME/base/quill"
-  if [[ ! -d "$quill_dir/.git" ]]; then
-    mkdir -p "$(dirname "$quill_dir")"
-    if ! git clone https://github.com/Rodsantos1337/quill.git "$quill_dir"; then
-      log_warn "quill clone failed (private repo? gh authed?) - skipping"
+# Dev-install quillcode (pi fork, public repo)
+install_quillcode() {
+  local quillcode_dir="$HOME/base/quillcode"
+  if [[ ! -d "$quillcode_dir/.git" ]]; then
+    mkdir -p "$(dirname "$quillcode_dir")"
+    log_step "cloning quillcode fork"
+    if ! git clone https://github.com/Rodsantos1337/quillcode.git "$quillcode_dir"; then
+      log_warn "quillcode clone failed - skipping"
       return 0
     fi
+  else
+    log_info "updating quillcode fork"
+    git -C "$quillcode_dir" pull --ff-only
   fi
-  if [[ -d "$quill_dir/.git" ]] && ! pipx list | grep -q '^quill'; then
-    log_step "installing quill (editable)"
-    pipx install -e "$quill_dir"
+  # Install cline globally via npm
+  if has_cmd npm; then
+    log_step "installing cline globally"
+    sudo npm install -g cline
+  else
+    log_warn "npm not found - skipping cline install"
   fi
 }
 

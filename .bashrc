@@ -50,8 +50,8 @@ sync-on() { systemctl --user start syncthing.service; }
 sync-off() { systemctl --user stop syncthing.service; }
 share-on() { tails-on && sync-on; }
 share-off() { tails-off; sync-off; }
-alias quillcode="/home/rod-desktop/base/pi/quillcode-test.sh"
-alias test-quillcode="/home/rod-desktop/base/pi/test.sh"
+alias quillcode="/home/rod-desktop/base/quillcode/quillcode-test.sh"
+alias test-quillcode="/home/rod-desktop/base/quillcode/test.sh"
 
 
 # Added by Antigravity CLI installer

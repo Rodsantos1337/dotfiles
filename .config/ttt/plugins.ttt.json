@@ -36,5 +36,18 @@
         "spell.*"
       ]
     }
+  },
+  {
+    "name": "lsp-markdown",
+    "displayName": "Markdown Language Server",
+    "version": "0.1.0",
+    "enabled": true,
+    "permissions": {
+      "network.http": false,
+      "settings": true,
+      "settings_keys": [
+        "lsp.*"
+      ]
+    }
   }
 ]
