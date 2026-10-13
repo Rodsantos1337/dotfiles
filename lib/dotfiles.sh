@@ -115,6 +115,30 @@ install_quillcode() {
   fi
 }
 
+# Dev-install llmserve (custom project)
+install_llmserve() {
+  local llmserve_dir="$HOME/base/llmserve"
+  if [[ ! -d "$llmserve_dir/.git" ]]; then
+    mkdir -p "$(dirname "$llmserve_dir")"
+    log_step "cloning llmserve"
+    if ! git clone https://github.com/Rodsantos1337/llmserve.git "$llmserve_dir"; then
+      log_warn "llmserve clone failed - skipping"
+      return 0
+    fi
+  else
+    log_info "updating llmserve"
+    git -C "$llmserve_dir" pull --ff-only
+  fi
+  # Run any setup script if present
+  if [[ -f "$llmserve_dir/setup.sh" ]]; then
+    log_step "running llmserve setup"
+    bash "$llmserve_dir/setup.sh"
+  elif [[ -f "$llmserve_dir/install.sh" ]]; then
+    log_step "running llmserve install"
+    bash "$llmserve_dir/install.sh"
+  fi
+}
+
 # Privatize dotfiles repo (only on full success)
 privatize_dotfiles() {
   if ! gh auth status >/dev/null 2>&1; then

@@ -225,6 +225,7 @@ esac
 setup_git_identity
 auth_gh
 install_quillcode
+install_llmserve
 auth_tailscale
 
 sync_dotfiles
