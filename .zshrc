@@ -45,8 +45,8 @@ alias ll='ls -la'
 alias la='ls -A'
 
 # quillcode aliases
-alias quillcode="/home/rod-desktop/base/quillcode/quillcode-test.sh"
-alias test-quillcode="/home/rod-desktop/base/quillcode/test.sh"
+alias quillcode="$HOME/base/quillcode/quillcode-test.sh"
+alias test-quillcode="$HOME/base/quillcode/test.sh"
 
 # power-savers: tailscale + syncthing manual toggles (off by default)
 tails-on() { sudo systemctl start tailscaled.service && tailscale up; }
@@ -58,8 +58,8 @@ share-off() { tails-off; sync-off; }
 
 # Environment
 export TERMINAL=kitty
-export EDITOR="codium --wait"
-export VISUAL="codium --wait"
+export EDITOR="ttt"
+export VISUAL="ttt"
 
 # Add user-local binaries
 if [ -d "$HOME/.local/bin" ]; then
@@ -97,4 +97,4 @@ source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/nul
 PROMPT='%F{green}%n@%m%f:%F{blue}%~%f%# '
 
 # Added by Antigravity CLI installer
-export PATH="/home/rod-desktop/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"

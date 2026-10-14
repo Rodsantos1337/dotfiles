@@ -148,7 +148,7 @@ bindsym $mod+e layout toggle split
 ## App shortcuts (imported from the old EndeavourOS config)
 bindsym $mod+w exec --no-startup-id zen-browser
 bindsym $mod+n exec --no-startup-id /usr/bin/thunar
-bindsym $mod+x exec --no-startup-id codium
+bindsym $mod+x exec --no-startup-id kitty -e ttt
 # mod+o: scratchpad terminal with ttt in vault
 bindsym $mod+o exec --no-startup-id ~/.config/i3/scripts/ttt-vault-toggle
 # mod+Shift+t: floating terminal with ttt in ~/vault
@@ -157,6 +157,9 @@ bindsym $mod+Shift+t exec --no-startup-id ~/.config/i3/scripts/ttt-toggle
 bindsym $mod+Shift+x exec --no-startup-id ~/.config/i3/scripts/refresh-toggle
 bindsym $mod+Shift+g exec --no-startup-id ~/.config/i3/scripts/gaming-toggle
 for_window [class="ttt-vault"] floating enable, resize set 1200 800, move position center, move scratchpad
+for_window [instance="ttt-vault"] floating enable, resize set 1200 800, move position center, move scratchpad
+for_window [class="ttt-float"] floating enable, resize set 1000 700, move position center, move scratchpad
+for_window [instance="ttt-float"] floating enable, resize set 1000 700, move position center, move scratchpad
 
 # Screenshots (flameshot)
 exec --no-startup-id flameshot

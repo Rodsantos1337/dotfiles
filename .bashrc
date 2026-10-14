@@ -27,8 +27,8 @@ if [ -d "$HOME/.opencode/bin" ]; then
     esac
 fi
 export TERMINAL=kitty
-export EDITOR="codium --wait"
-export VISUAL="codium --wait"
+export EDITOR="ttt"
+export VISUAL="ttt"
 
 # zoxide: smart `z <fragment>` jumps (frecency-ranked)
 if command -v zoxide >/dev/null 2>&1; then
@@ -50,9 +50,9 @@ sync-on() { systemctl --user start syncthing.service; }
 sync-off() { systemctl --user stop syncthing.service; }
 share-on() { tails-on && sync-on; }
 share-off() { tails-off; sync-off; }
-alias quillcode="/home/rod-desktop/base/quillcode/quillcode-test.sh"
-alias test-quillcode="/home/rod-desktop/base/quillcode/test.sh"
+alias quillcode="$HOME/base/quillcode/quillcode-test.sh"
+alias test-quillcode="$HOME/base/quillcode/test.sh"
 
 
 # Added by Antigravity CLI installer
-export PATH="/home/rod-desktop/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"

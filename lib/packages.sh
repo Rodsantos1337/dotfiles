@@ -15,7 +15,7 @@ ARCH_BASE_PKGS=(
   fzf zoxide
   python-gobject python-pipx
   # session / window manager
-  i3-wm i3blocks dmenu i3lock xss-lock ly
+  i3-wm i3blocks i3lock xss-lock ly
   xorg-server xorg-xinit xorg-xrandr xorg-xinput xorg-xrdb
   # system UI
   kitty dunst picom xsettingsd feh flameshot polybar rofi
@@ -63,7 +63,7 @@ FEDORA_BASE_PKGS=(
   fzf zoxide
   python3-gobject pipx
   # session / window manager
-  i3 i3blocks dmenu i3lock xss-lock
+  i3 i3blocks i3lock xss-lock
   xorg-x11-server-Xorg xorg-x11-xinit xrandr xrdb xinput
   # system UI
   kitty dunst picom xsettingsd feh flameshot polybar rofi
