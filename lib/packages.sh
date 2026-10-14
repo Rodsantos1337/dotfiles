@@ -18,7 +18,7 @@ ARCH_BASE_PKGS=(
   i3-wm i3blocks dmenu i3lock xss-lock ly
   xorg-server xorg-xinit xorg-xrandr xorg-xinput xorg-xrdb
   # system UI
-  alacritty dunst picom xsettingsd feh flameshot polybar rofi
+  kitty dunst picom xsettingsd feh flameshot polybar rofi
   # brightness OSD
   brightnessctl libnotify
   network-manager-applet power-profiles-daemon lm_sensors pavucontrol
@@ -66,7 +66,7 @@ FEDORA_BASE_PKGS=(
   i3 i3blocks dmenu i3lock xss-lock
   xorg-x11-server-Xorg xorg-x11-xinit xrandr xrdb xinput
   # system UI
-  alacritty dunst picom xsettingsd feh flameshot polybar rofi
+  kitty dunst picom xsettingsd feh flameshot polybar rofi
   brightnessctl libnotify
   gtk-murrine-engine
   network-manager-applet power-profiles-daemon lm_sensors pavucontrol

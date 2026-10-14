@@ -3,9 +3,10 @@
   "theme": "everforest-dim",
   "appearance": {
     "icons": "none",
+    "menuBarVisible": false,
     "chevrons": {
-      "collapsed": "▶",
-      "expanded": "▼"
+      "collapsed": "+",
+      "expanded": "-"
     }
   },
   "editor": {
@@ -23,6 +24,7 @@
     "gutterStyle": "compact",
     "borderStyle": "default",
     "bracketPairColorization": false,
+    "menuBar": false,
     "transparentBackground": false
   },
   "search": {

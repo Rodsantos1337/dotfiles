@@ -59,13 +59,13 @@ commit `2dd7dd9e96992f80596603807f9254f8d4ef90dd`, pre April-2021 rework).
   `~/.config/i3/scripts/power-profiles` (`-nb`/`-sf` → `#1e2326`).
 - Validate with: `i3 -C -c ~/.config/i3/config`.
 
-### alacritty
+### kitty
 
-- `~/.config/alacritty/alacritty.toml`:
+- `~/.config/kitty/kitty.toml`:
   - `colors.primary.background` → `#1e2326`
   - `colors.cursor.text` → `#1e2326`
   - `colors.normal.black` → `#323c41` (bright black stays `#475258`)
-- Restart alacritty windows to apply.
+- Restart kitty windows to apply.
 
 ### dunst
 
@@ -135,7 +135,7 @@ commit `2dd7dd9e96992f80596603807f9254f8d4ef90dd`, pre April-2021 rework).
 |-------------|------------------------------------------------------------------------|
 | GTK         | Point the three selection points back to `Everforest-Green-Dark`, then delete `~/.local/share/themes/Everforest-Green-Dark-Dim/` |
 | i3          | Restore `#2b3339` for `$ever_bg`, dmenu, bar/workspace entries and the two power scripts |
-| alacritty   | `background`/cursor text back to `#2b3339`, black back to `#475258`     |
+| kitty   | `background`/cursor text back to `#2b3339`, black back to `#475258`     |
 | dunst       | Revert the two backgrounds / one foreground to `#2b3339`, restart service |
 | opencode    | Remove `"theme"` line from `tui.json` (falls back to default) and/or delete the theme file |
 | Zed         | Set dark theme back to `Everforest Dark Hard (material)`; optionally delete the local theme file |

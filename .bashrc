@@ -26,7 +26,7 @@ if [ -d "$HOME/.opencode/bin" ]; then
         *) PATH="$HOME/.opencode/bin:$PATH" ;;
     esac
 fi
-export TERMINAL=alacritty
+export TERMINAL=kitty
 export EDITOR="codium --wait"
 export VISUAL="codium --wait"
 

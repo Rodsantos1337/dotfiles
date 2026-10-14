@@ -23,9 +23,9 @@ I3_MSG="$(resolve_cmd i3-msg /usr/bin/i3-msg)" || {
     echo "ttt-vault-toggle: i3-msg not found in PATH" >&2
     exit 1
 }
-ALACRITTY="$(resolve_cmd alacritty /usr/bin/alacritty)" || {
-    command -v notify-send >/dev/null 2>&1 && notify-send "ttt-vault" "alacritty not found in PATH"
-    echo "ttt-vault-toggle: alacritty not found in PATH" >&2
+KITTY="$(resolve_cmd kitty /usr/bin/kitty)" || {
+    command -v notify-send >/dev/null 2>&1 && notify-send "ttt-vault" "kitty not found in PATH"
+    echo "ttt-vault-toggle: kitty not found in PATH" >&2
     exit 1
 }
 TTT="$(resolve_cmd ttt "$HOME/.local/bin/ttt")" || {
@@ -57,7 +57,7 @@ if tree_has_instance; then
 fi
 
 # Launch new instance: ttt opening the vault dir explicitly.
-"$ALACRITTY" --class="$INSTANCE,$INSTANCE" --working-directory="$VAULT_DIR" -e "$TTT" . >/dev/null 2>&1 &
+"$KITTY" --class="$INSTANCE" --working-directory="$VAULT_DIR" -e "$TTT" . >/dev/null 2>&1 &
 disown 2>/dev/null || true
 
 # Poll for the window instead of a blind sleep (up to ~4s).

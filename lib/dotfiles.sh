@@ -30,7 +30,7 @@ verify_dotfile_links() {
     ".bashrc" ".xprofile" ".Xresources" ".fehbg"
     "Pictures/bg.jpg" "Pictures/bg-old.jpg" "Pictures/new.jpg"
     ".config/i3/config" ".config/i3/scripts"
-    ".config/alacritty" ".config/dunst" ".config/flameshot/flameshot.ini"
+    ".config/kitty" ".config/dunst" ".config/flameshot/flameshot.ini"
     ".config/fontconfig" ".config/gtk-3.0/settings.ini" ".config/gtk-4.0/settings.ini"
     ".config/opencode/themes" ".config/opencode/tui.json"
     ".config/picom" ".config/polybar" ".config/rofi" ".config/nvim"
@@ -62,7 +62,7 @@ check_stale_home_paths() {
   local dirs=(
     "$HOME/.config/i3"
     "$HOME/.config/polybar"
-    "$HOME/.config/alacritty"
+    "$HOME/.config/kitty"
     "$HOME/.fehbg"
   )
   check_stale_paths "${dirs[@]}"

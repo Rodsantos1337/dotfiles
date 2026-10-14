@@ -4,14 +4,14 @@ set -u
 
 # i3 spawns this script with a minimal PATH (no ~/.local/bin).
 TTT_BIN="$(command -v ttt 2>/dev/null || echo "$HOME/.local/bin/ttt")"
-ALACRITTY_BIN="$(command -v alacritty 2>/dev/null || echo /usr/bin/alacritty)"
+KITTY_BIN="$(command -v kitty 2>/dev/null || echo /usr/bin/kitty)"
 
-# Check if any Alacritty window exists
-if i3-msg -t get_tree | grep -q '"class":"Alacritty"'; then
+# Check if any Kitty window exists
+if i3-msg -t get_tree | grep -q '"class":"kitty"'; then
     i3-msg 'scratchpad show' >/dev/null 2>&1
 else
-    # Launch alacritty with ttt in ~/vault
-    "$ALACRITTY_BIN" --working-directory="$HOME/vault" -e "$TTT_BIN" >/dev/null 2>&1 &
+    # Launch kitty with ttt in ~/vault
+    "$KITTY_BIN" --working-directory="$HOME/vault" -e "$TTT_BIN" >/dev/null 2>&1 &
     # Give the terminal a moment to appear
     sleep 2
     i3-msg 'scratchpad show' >/dev/null 2>&1

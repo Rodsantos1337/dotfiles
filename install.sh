@@ -29,7 +29,7 @@ MAPPINGS=(
   "wallpapers/new.jpg:Pictures/new.jpg"
   ".config/i3/config"
   ".config/i3/scripts"
-  ".config/alacritty"
+  ".config/kitty"
   ".config/dunst"
   ".config/flameshot/flameshot.ini"
   ".config/fontconfig"
@@ -123,7 +123,7 @@ verify_links() {
     ".bashrc" ".zshrc" ".xprofile" ".Xresources" ".fehbg"
     "Pictures/bg.jpg" "Pictures/bg-old.jpg" "Pictures/new.jpg"
     ".config/i3/config" ".config/i3/scripts"
-    ".config/alacritty" ".config/dunst" ".config/flameshot/flameshot.ini"
+    ".config/kitty" ".config/dunst" ".config/flameshot/flameshot.ini"
     ".config/fontconfig" ".config/gtk-3.0/settings.ini" ".config/gtk-4.0/settings.ini"
     ".config/opencode"
     ".config/picom" ".config/polybar" ".config/rofi" ".config/ttt" ".config/nvim"
@@ -155,7 +155,7 @@ check_stale_paths() {
   local dirs=(
     "$HOME/.config/i3"
     "$HOME/.config/polybar"
-    "$HOME/.config/alacritty"
+    "$HOME/.config/kitty"
     "$HOME/.fehbg"
   )
   local found=0

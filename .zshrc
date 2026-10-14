@@ -57,7 +57,7 @@ share-on() { tails-on && sync-on; }
 share-off() { tails-off; sync-off; }
 
 # Environment
-export TERMINAL=alacritty
+export TERMINAL=kitty
 export EDITOR="codium --wait"
 export VISUAL="codium --wait"
 
