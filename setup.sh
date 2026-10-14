@@ -7,7 +7,7 @@
 #   --fedora            Target Fedora (auto-detected if omitted)
 #   --desktop           Desktop variant (auto-detected via hostname if omitted)
 #   --laptop            Laptop variant (auto-detected via hostname if omitted)
-#   --browser=NAME      Browser to install: helium|zen (default: helium)
+#   --browser=NAME      Browser to install: zen (default: zen)
 #   --no-quill          Skip quill dev install
 #   --no-privatize      Skip privatizing dotfiles repo
 #   --no-verify         Skip dotfile link verification
@@ -30,7 +30,7 @@ set -euo pipefail
 # -----------------------------------------------------------------------------
 DISTRO=""
 VARIANT=""
-BROWSER="helium"
+BROWSER="zen"
 PRIVATIZE=true
 VERIFY=true
 INSTALL_QUILL=true
@@ -53,9 +53,9 @@ for arg in "$@"; do
   esac
 done
 
-# Validate browser choice
-if [[ "$BROWSER" != "helium" && "$BROWSER" != "zen" ]]; then
-  echo "Invalid browser: $BROWSER (must be helium or zen)" >&2
+# Validate browser choice (zen-only; helium/codium removed)
+if [[ "$BROWSER" != "zen" ]]; then
+  echo "Invalid browser: $BROWSER (only zen is supported)" >&2
   exit 1
 fi
 
@@ -111,13 +111,9 @@ setup_arch() {
     (cd /tmp/yay && makepkg -si)
   fi
 
-  # AUR packages
+  # AUR packages (zen-browser-bin is in ARCH_AUR_PKGS)
   log_step "[arch] installing AUR packages"
   local aur_pkgs=($(get_arch_aur_pkgs "$VARIANT"))
-  # Handle browser choice
-  if [[ "$BROWSER" == "zen" ]]; then
-    aur_pkgs=("${aur_pkgs[@]/helium-browser-bin/zen-browser-bin}")
-  fi
   yay -S --needed "${aur_pkgs[@]}"
 
   # Laptop-specific: fan control + keyboard backlight
@@ -150,19 +146,9 @@ setup_fedora() {
     || log_warn "rpmfusion install failed (already enabled?)"
   sudo dnf install -y dnf-plugins-core curl wget
 
-  # VSCodium repo
-  if [[ ! -f /etc/yum.repos.d/vscodium.repo ]]; then
-    sudo curl --output-dir /etc/yum.repos.d -fsSL -O https://repo.vscodium.dev/vscodium.repo
-  fi
-
-  # Browser COPR
-  if [[ "$BROWSER" == "zen" ]]; then
-    if ! sudo dnf copr list --enabled 2>/dev/null | grep -q 'sneexy/zen-browser'; then
-      sudo dnf copr enable -y sneexy/zen-browser
-    fi
-  else
-    # Check for helium COPR - placeholder for now
-    log_warn "helium-browser COPR not configured - will attempt dnf install"
+  # Browser COPR (zen-only)
+  if ! sudo dnf copr list --enabled 2>/dev/null | grep -q 'sneexy/zen-browser'; then
+    sudo dnf copr enable -y sneexy/zen-browser
   fi
 
   log_step "[fedora] installing dnf packages"

@@ -23,21 +23,22 @@ run_install_sh() {
   "$DOTFILES_DIR/install.sh" "--$variant"
 }
 
-# Verify critical symlinks point to dotfiles repo
+# Verify critical symlinks point to dotfiles repo (mirrors install.sh MAPPINGS)
 verify_dotfile_links() {
   local dotfiles_dir="$1"
   local verify_rels=(
-    ".bashrc" ".xprofile" ".Xresources" ".fehbg"
-    "Pictures/bg.jpg" "Pictures/bg-old.jpg" "Pictures/new.jpg"
+    ".bashrc" ".zshrc" ".xprofile" ".Xresources" ".fehbg"
+    "Pictures/bg.jpg" "Pictures/bg-old.jpg" "Pictures/new.jpg" "Pictures/bg-newer.jpg"
     ".config/i3/config" ".config/i3/scripts"
     ".config/kitty" ".config/dunst" ".config/flameshot/flameshot.ini"
     ".config/fontconfig" ".config/gtk-3.0/settings.ini" ".config/gtk-4.0/settings.ini"
-    ".config/opencode/themes" ".config/opencode/tui.json"
-    ".config/picom" ".config/polybar" ".config/rofi" ".config/nvim"
-    ".config/VSCodium" ".vscode-oss/argv.json" ".config/xsettingsd"
-    ".config/disable-mouse-accel.sh"
+    ".config/opencode"
+    ".config/picom" ".config/polybar" ".config/rofi" ".config/ttt" ".config/nvim"
+    ".config/qutebrowser/config.py" ".config/xsettingsd"
+    ".config/disable-mouse-accel.sh" ".config/mimeapps.list" ".config/user-dirs.dirs"
+    ".config/user-dirs.locale" ".config/gamemode.ini"
+    ".config/systemd" ".gitconfig"
     ".local/share/themes/Everforest-Green-Dark-Dim"
-    ".config/quickshell"
   )
 
   local fail=0

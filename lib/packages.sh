@@ -13,6 +13,8 @@ ARCH_BASE_PKGS=(
   base-devel git
   # fuzzy finder + jumper
   fzf zoxide
+  # shell
+  zsh zsh-autosuggestions zsh-syntax-highlighting
   python-gobject python-pipx
   # session / window manager
   i3-wm i3blocks i3lock xss-lock ly
@@ -41,8 +43,7 @@ ARCH_LAPTOP_PKGS=(
 
 # AUR packages for all Arch variants
 ARCH_AUR_PKGS=(
-  helium-browser-bin
-  vscodium-bin
+  zen-browser-bin
   everforest-icon-theme-git
   gtk-engine-murrine
 )
@@ -61,6 +62,8 @@ FEDORA_BASE_PKGS=(
   # build/clone toolchain
   gcc gcc-c++ make kernel-devel git curl wget
   fzf zoxide
+  # shell
+  zsh zsh-autosuggestions zsh-syntax-highlighting
   python3-gobject pipx
   # session / window manager
   i3 i3blocks i3lock xss-lock
@@ -75,6 +78,7 @@ FEDORA_BASE_PKGS=(
   jetbrains-mono-fonts rsms-inter-fonts fontawesome4-fonts
   # apps
   Thunar nano neovim steam
+  qutebrowser
   # JS runtime
   nodejs22 nodejs22-npm
   # tools
@@ -88,8 +92,7 @@ FEDORA_LAPTOP_PKGS=(
 
 # Third-party apps installed via dnf (after repo setup)
 FEDORA_THIRD_PARTY_PKGS=(
-  codium
-  zen-browser  # Note: helium-browser may not be available in Fedora COPR
+  zen-browser
 )
 
 # =============================================================================

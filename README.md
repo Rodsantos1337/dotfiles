@@ -4,23 +4,35 @@ rod's Everforest i3wm dotfiles.
 
 ## Layout
 
+- `setup.sh` — unified provisioning for Arch/Fedora, desktop/laptop
+  (packages, browsers, services, theming, then calls `install.sh`)
 - `install.sh` — symlink installer, shared by every platform (installs no
-  packages; run the setup script for that)
-- root dotfiles (distro-agnostic): `.config/`, `.bashrc`, `.fehbg`,
+  packages; run `setup.sh` for that)
+- `lib/` — setup libraries (`common`, `packages`, `services`, `browsers`,
+  `dotfiles`, `theming`)
+- root dotfiles (distro-agnostic): `.config/`, `.bashrc`, `.zshrc`, `.fehbg`,
   `.xprofile`, `.Xresources`, `themes/`, `wallpapers/`
-- `arch/` — Arch provisioning: `setup.sh` (desktop), `setup-laptop.sh`
-  (Gigabyte G5 KF). See `arch/archsetup.md` first.
-- `fedora/` — Fedora provisioning: `install-fedora.sh` (desktop),
-  `setup-laptop-fedora.sh` (laptop)
+- `arch/`, `fedora/` — thin wrappers around `../setup.sh` (backward compat).
+  See `arch/archsetup.md` for bootstrap.
 
 ## Fresh machine
 
 ```sh
 git clone https://github.com/Rodsantos1337/dotfiles.git ~/dotfiles
-~/dotfiles/arch/setup.sh          # Arch
-~/dotfiles/fedora/install-fedora.sh  # Fedora
+~/dotfiles/setup.sh --fedora --laptop    # this laptop (hostname fedora: pass --laptop explicitly)
+~/dotfiles/setup.sh --fedora --desktop   # other machine (desktop)
 ```
 
-Setup scripts are idempotent; re-running is safe. On a laptop use the
-`-laptop` variant. The repo must be public before a fresh box can clone it
-(bootstrap details in `arch/archsetup.md`).
+Symlinks only (no packages):
+
+```sh
+~/dotfiles/install.sh --laptop
+~/dotfiles/install.sh --desktop
+```
+
+Setup is idempotent; re-running is safe. Always pass `--laptop` /
+`--desktop` explicitly — auto-detection treats hostname `fedora*` as
+desktop, which is wrong on the laptop. The i3 monitor variant follows the
+same flag (`~/.config/i3/local -> monitors-<variant>`). The repo must be
+public before a fresh box can clone it (bootstrap details in
+`arch/archsetup.md`).

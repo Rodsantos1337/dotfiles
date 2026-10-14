@@ -11,21 +11,15 @@ install_arch_browsers() {
     log_err "yay not found - run setup.sh first"
     return 1
   fi
-  yay -S --needed helium-browser-bin vscodium-bin everforest-icon-theme-git gtk-engine-murrine
+  yay -S --needed zen-browser-bin everforest-icon-theme-git gtk-engine-murrine
 }
 
 # Install browsers for Fedora
 install_fedora_browsers() {
-  log_step "installing third-party apps (VSCodium + browser)"
+  log_step "installing third-party apps (Zen browser)"
 
-  # VSCodium + Zen/Helium via repos enabled in setup.sh
-  # Note: helium-browser may not be in Fedora COPR; fallback to zen-browser
-  if dnf list helium-browser >/dev/null 2>&1; then
-    sudo dnf install -y helium-browser codium
-  else
-    log_warn "helium-browser not in Fedora repos - installing zen-browser instead"
-    sudo dnf install -y zen-browser codium || log_warn "browser install had issues - check repos"
-  fi
+  # Zen via COPR sneexy/zen-browser (repos enabled in setup.sh)
+  sudo dnf install -y zen-browser || log_warn "browser install had issues - check repos"
 }
 
 # Install Tailscale (Fedora only - Arch uses package)
