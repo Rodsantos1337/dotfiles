@@ -216,11 +216,13 @@ if [[ "$INSTALL_QUILL" == true ]]; then
   install_quillcode
 fi
 install_ttt
+install_marksman
 install_llmserve
 auth_tailscale
 
 sync_dotfiles
 run_install_sh "$VARIANT"
+install_opencode_deps
 
 if [[ "$VERIFY" == true ]]; then
   verify_dotfile_links "$DOTFILES_DIR"
@@ -229,6 +231,7 @@ fi
 
 apply_everforest_theming
 setup_keyboard_pt
+setup_default_shell
 
 enable_common_services
 enable_display_manager "$DISTRO"

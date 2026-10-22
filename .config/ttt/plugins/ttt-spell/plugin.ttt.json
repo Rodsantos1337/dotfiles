@@ -1,0 +1,21 @@
+{
+  "name": "spell",
+  "displayName": "Spell Check",
+  "description": "Spell checking for prose files via aspell (requires the aspell binary and a dictionary to be installed separately)",
+  "version": "0.1.0",
+  "author": "eugenioenko",
+  "entry": "init.lua",
+  "api": 1,
+  "permissions": {
+    "commands": true,
+    "keybindings": true,
+    "editor.read": true,
+    "editor.write": true,
+    "editor.diagnostics": true,
+    "events.editor": true,
+    "events.file": true,
+    "system.exec": ["aspell"],
+    "settings": true,
+    "settings_keys": ["spell.*"]
+  }
+}

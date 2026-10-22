@@ -96,5 +96,13 @@ source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/nul
 # Prompt (simple, like bash PS1)
 PROMPT='%F{green}%n@%m%f:%F{blue}%~%f%# '
 
+# npm user-global (for dcli and other linked CLIs)
+if [ -d "$HOME/.npm-global/bin" ]; then
+    case ":$PATH" in
+        *":$HOME/.npm-global/bin:"*) ;;
+        *) PATH="$HOME/.npm-global/bin:$PATH" ;;
+    esac
+fi
+
 # Added by Antigravity CLI installer
 export PATH="$HOME/.local/bin:$PATH"

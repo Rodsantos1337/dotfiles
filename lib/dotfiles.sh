@@ -34,6 +34,7 @@ verify_dotfile_links() {
     ".config/fontconfig" ".config/gtk-3.0/settings.ini" ".config/gtk-4.0/settings.ini"
     ".config/opencode"
     ".config/picom" ".config/polybar" ".config/rofi" ".config/ttt" ".config/nvim"
+    ".config/zed" ".config/alacritty"
     ".config/qutebrowser/config.py" ".config/xsettingsd"
     ".config/disable-mouse-accel.sh" ".config/mimeapps.list" ".config/user-dirs.dirs"
     ".config/user-dirs.locale" ".config/gamemode.ini"
@@ -158,6 +159,62 @@ install_llmserve() {
     log_step "running llmserve install"
     bash "$llmserve_dir/install.sh"
   fi
+}
+
+# Set zsh as the login shell when installed (idempotent).
+setup_default_shell() {
+  local zsh_path current
+  zsh_path="$(command -v zsh || true)"
+  if [[ -z "$zsh_path" ]]; then
+    log_warn "zsh not installed - keeping current login shell"
+    return 0
+  fi
+  current="$(getent passwd "$USER" | cut -d: -f7)"
+  if [[ "$current" == "$zsh_path" ]]; then
+    log_info "login shell already $zsh_path"
+    return 0
+  fi
+  log_step "setting login shell to $zsh_path"
+  sudo chsh -s "$zsh_path" "$USER" || log_warn "chsh failed - set the login shell manually"
+}
+
+# Install marksman (Markdown LSP) from the upstream release. No Fedora package.
+install_marksman() {
+  if command -v marksman >/dev/null 2>&1; then
+    log_info "marksman already installed"
+    return 0
+  fi
+  local arch asset
+  case "$(uname -m)" in
+    x86_64) arch="x64" ;;
+    aarch64|arm64) arch="arm64" ;;
+    *) log_warn "marksman: unsupported arch $(uname -m) - skipping"; return 0 ;;
+  esac
+  asset="marksman-linux-${arch}"
+  log_step "installing marksman ($asset)"
+  mkdir -p "$HOME/.local/bin"
+  if curl -fsSL -o "$HOME/.local/bin/marksman" \
+    "https://github.com/artempyanykh/marksman/releases/latest/download/$asset"; then
+    chmod +x "$HOME/.local/bin/marksman"
+    log_ok "marksman installed"
+  else
+    log_warn "marksman download failed - ttt markdown LSP will be unavailable"
+  fi
+}
+
+# Install OpenCode plugin dependencies from the tracked package.json.
+install_opencode_deps() {
+  local dir="$HOME/.config/opencode"
+  if [[ ! -f "$dir/package.json" ]]; then
+    log_info "opencode package.json not found - skipping plugin deps"
+    return 0
+  fi
+  if ! has_cmd npm; then
+    log_warn "npm not found - skipping opencode plugin deps"
+    return 0
+  fi
+  log_step "installing opencode plugin dependencies"
+  (cd "$dir" && npm install --no-audit --no-fund) || log_warn "opencode npm install failed"
 }
 
 # Privatize dotfiles repo (only on full success)

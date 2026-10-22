@@ -64,12 +64,14 @@ FEDORA_BASE_PKGS=(
   fzf zoxide
   # shell
   zsh zsh-autosuggestions zsh-syntax-highlighting
+  # search / LSP
+  ripgrep fd-find clang-tools-extra
   python3-gobject pipx
   # session / window manager
   i3 i3blocks i3lock xss-lock
   xorg-x11-server-Xorg xorg-x11-xinit xrandr xrdb xinput
   # system UI
-  kitty dunst picom xsettingsd feh flameshot polybar rofi
+  kitty alacritty dunst picom xsettingsd feh flameshot polybar rofi
   brightnessctl libnotify
   gtk-murrine-engine
   network-manager-applet power-profiles-daemon lm_sensors pavucontrol
@@ -77,8 +79,9 @@ FEDORA_BASE_PKGS=(
   # fonts (Nerd Fonts installed separately via zip)
   jetbrains-mono-fonts rsms-inter-fonts fontawesome4-fonts
   # apps
-  Thunar nano neovim steam
-  qutebrowser
+  Thunar nano neovim qutebrowser steam
+  # spell check / gaming helpers
+  aspell aspell-en gamemode
   # JS runtime
   nodejs22 nodejs22-npm
   # tools

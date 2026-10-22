@@ -49,5 +49,25 @@
         "lsp.*"
       ]
     }
+  },
+  {
+    "name": "ttt-ghost",
+    "displayName": "Ghost Complete",
+    "version": "0.1.0",
+    "enabled": true,
+    "permissions": {
+      "commands": true,
+      "keybindings": true,
+      "editor.read": true,
+      "editor.write": true,
+      "system.exec": [
+        "curl"
+      ],
+      "system.env": true,
+      "network.http": true,
+      "events.file": true,
+      "events.editor": true,
+      "storage": true
+    }
   }
 ]

@@ -29,6 +29,17 @@ enable_display_manager() {
     else
       log_info "display-manager already enabled, skipping ly"
     fi
+  elif [[ "$distro" == "fedora" ]]; then
+    if systemctl is-enabled display-manager >/dev/null 2>&1; then
+      log_info "display manager already enabled"
+    else
+      log_info "no display manager enabled - installing lightdm"
+      if sudo dnf install -y lightdm lightdm-gtk; then
+        sudo systemctl enable lightdm || log_warn "lightdm enable failed"
+      else
+        log_warn "lightdm install failed - start i3 manually or install a greeter"
+      fi
+    fi
   fi
 }
 

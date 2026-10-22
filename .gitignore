@@ -15,6 +15,7 @@ node_modules/
 
 # ttt runtime state (machine-specific)
 .config/ttt/state.json
+.config/ttt/state/
 
 # quill session notes (harness-managed, not for tracking)
 .quill/

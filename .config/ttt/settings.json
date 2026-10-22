@@ -3,11 +3,11 @@
   "theme": "everforest-dim",
   "appearance": {
     "icons": "none",
-    "menuBarVisible": false,
     "chevrons": {
       "collapsed": "+",
       "expanded": "-"
-    }
+    },
+    "scrollbarGlyphs": "blocks"
   },
   "editor": {
     "tabSize": 4,
@@ -16,13 +16,20 @@
     "diffMode": "split",
     "diffContext": "changes",
     "diffWordWrap": false,
+    "diffHighContrast": false,
+    "diffEmphasizeCollapsedRows": false,
+    "diffSigns": false,
+    "diffSignsColor": true,
+    "diffGutterHighlight": true,
+    "diffColorGutterNumbers": false,
+    "diffScrollbarGitMarks": false,
     "lineNumbers": true,
     "formatOnSave": false,
     "insertFinalNewline": true,
     "trimTrailingWhitespace": false,
     "focusOnOpen": false,
     "gutterStyle": "compact",
-    "borderStyle": "default",
+    "borderStyle": "rounded",
     "bracketPairColorization": false,
     "menuBar": false,
     "transparentBackground": false
