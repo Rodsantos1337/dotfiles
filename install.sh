@@ -32,7 +32,6 @@ MAPPINGS=(
   ".config/i3/scripts"
   ".config/kitty"
   ".config/dunst"
-  ".config/flameshot/flameshot.ini"
   ".config/fontconfig"
   ".config/gtk-3.0/settings.ini"
   ".config/gtk-4.0/settings.ini"
@@ -117,6 +116,34 @@ link_local_variant() {
   mkdir -p "$(dirname "$dest_abs")"
   ln -s "$src_abs" "$dest_abs"
   echo "link: .config/i3/local -> monitors-$variant"
+}
+
+# Link the per-machine Flameshot config:
+# ~/.config/flameshot/flameshot.ini -> flameshot-<variant>.ini.
+link_flameshot_variant() {
+  local variant="$1"
+  local src_abs="$DOTFILES_DIR/.config/flameshot/flameshot-$variant.ini"
+  local dest_abs="$HOME/.config/flameshot/flameshot.ini"
+
+  if [[ ! -e "$src_abs" ]]; then
+    echo "skip: .config/flameshot/flameshot-$variant.ini (missing in repo)"
+    return
+  fi
+
+  if [[ -L "$dest_abs" ]] && [[ "$(readlink "$dest_abs")" == "$src_abs" ]]; then
+    echo "ok:   .config/flameshot/flameshot.ini (already -> flameshot-$variant.ini)"
+    return
+  fi
+
+  if [[ -e "$dest_abs" || -L "$dest_abs" ]]; then
+    mkdir -p "$BACKUP_DIR/.config/flameshot"
+    mv "$dest_abs" "$BACKUP_DIR/.config/flameshot/flameshot.ini"
+    echo "back: .config/flameshot/flameshot.ini -> $BACKUP_DIR/.config/flameshot/flameshot.ini"
+  fi
+
+  mkdir -p "$(dirname "$dest_abs")"
+  ln -s "$src_abs" "$dest_abs"
+  echo "link: .config/flameshot/flameshot.ini -> flameshot-$variant.ini"
 }
 
 # Verify critical symlinks point to dotfiles repo
@@ -208,6 +235,7 @@ main() {
     link_one "$mapping"
   done
   link_local_variant "$variant"
+  link_flameshot_variant "$variant"
 
   # Verify critical symlinks point to dotfiles repo
   if [[ "$do_verify" == true ]]; then
