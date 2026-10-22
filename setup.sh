@@ -9,7 +9,8 @@
 #   --laptop            Laptop variant (auto-detected via hostname if omitted)
 #   --browser=NAME      Browser to install: zen (default: zen)
 #   --no-quill          Skip quill dev install
-#   --no-privatize      Skip privatizing dotfiles repo
+#   --privatize         Flip dotfiles repo back to private on success
+#   --no-privatize      Keep dotfiles repo public (default)
 #   --no-verify         Skip dotfile link verification
 #   -h, --help          Show this help
 #
@@ -31,7 +32,7 @@ set -euo pipefail
 DISTRO=""
 VARIANT=""
 BROWSER="zen"
-PRIVATIZE=true
+PRIVATIZE=false
 VERIFY=true
 INSTALL_QUILL=true
 
@@ -42,6 +43,7 @@ for arg in "$@"; do
     --desktop)  VARIANT="desktop" ;;
     --laptop)   VARIANT="laptop" ;;
     --browser=*) BROWSER="${arg#*=}" ;;
+    --privatize) PRIVATIZE=true ;;
     --no-privatize) PRIVATIZE=false ;;
     --no-verify) VERIFY=false ;;
     --no-quill) INSTALL_QUILL=false ;;

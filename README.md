@@ -35,5 +35,5 @@ Setup is idempotent; re-running is safe. Always pass `--laptop` /
 desktop, which is wrong on the laptop. The i3 monitor variant follows the
 same flag (`~/.config/i3/local -> monitors-<variant>`). The repo must be
 public before a fresh box can clone it (bootstrap details in
-`arch/archsetup.md`). Add `--no-privatize` to keep the repo public for the
-next reinstall.
+`arch/archsetup.md`). The repo stays public by default; add `--privatize`
+to flip it back to private at the end.

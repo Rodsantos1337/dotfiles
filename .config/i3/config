@@ -51,10 +51,11 @@ exec --no-startup-id xrdb -merge ~/.Xresources
 # via `include ~/.config/i3/local*` at the end of this file.
 
 # wallpaper (image passed twice = one copy per monitor)
-# switch: uncomment the line you want (default: new.jpg)
+# switch: uncomment the line you want (default: bg-newer.jpg)
 # set $bg ~/Pictures/bg.jpg
-set $bg ~/Pictures/new.jpg
+set $bg ~/Pictures/bg-newer.jpg
 # set $bg ~/Pictures/bg-old.jpg
+# set $bg ~/Pictures/new.jpg
 exec --no-startup-id sleep 1 && feh --bg-fill $bg $bg
 
 # flat mouse acceleration profile

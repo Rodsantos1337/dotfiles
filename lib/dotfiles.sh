@@ -94,7 +94,7 @@ auth_tailscale() {
   fi
 }
 
-# Dev-install quillcode (pi fork, public repo) - canonical dir is ~/base/quillcode
+# Dev-install quillcode (private repo, gh auth required) - canonical dir is ~/base/quillcode
 install_quillcode() {
   local quillcode_dir="$HOME/base/quillcode"
   if [[ ! -d "$quillcode_dir/.git" ]]; then
