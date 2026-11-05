@@ -1,7 +1,7 @@
 {
-  "name": "markdown-preview",
-  "displayName": "Markdown Preview",
-  "description": "Preview markdown files with styled rendering",
+  "name": "json-viewer",
+  "displayName": "JSON Viewer",
+  "description": "Preview JSON files as an expandable tree",
   "version": "0.1.0",
   "author": "eugenioenko",
   "entry": "plugin.lua",

@@ -1,18 +1,27 @@
 {
   "version": 1,
-  "theme": "everforest-dim",
+  "theme": "salvia-dim",
   "appearance": {
     "icons": "none",
-    "chevrons": {
-      "collapsed": "+",
-      "expanded": "-"
+    "overrides": {
+      "chevron-down": "-",
+      "chevron-right": "+"
     },
     "scrollbarGlyphs": "blocks"
   },
   "editor": {
+    "autoClosing": {
+      "brackets": false,
+      "quotes": false,
+      "skipClosing": true,
+      "deletePairs": true,
+      "inStrings": false,
+      "plainText": false
+    },
     "tabSize": 4,
     "insertSpaces": true,
-    "wordWrap": false,
+    "wordWrap": true,
+    "wordWrapColumn": 0,
     "diffMode": "split",
     "diffContext": "changes",
     "diffWordWrap": false,
@@ -24,6 +33,7 @@
     "diffColorGutterNumbers": false,
     "diffScrollbarGitMarks": false,
     "lineNumbers": true,
+    "selectionStyle": "background",
     "formatOnSave": false,
     "insertFinalNewline": true,
     "trimTrailingWhitespace": false,
@@ -32,7 +42,13 @@
     "borderStyle": "rounded",
     "bracketPairColorization": false,
     "menuBar": false,
-    "transparentBackground": false
+    "transparentBackground": false,
+    "saveAllOnQuit": false,
+    "saveAllOnQuitExceptUnnamed": false
+  },
+  "quickOpen": {
+    "showHidden": false,
+    "showGitIgnored": false
   },
   "search": {
     "debounce": 350
@@ -48,10 +64,29 @@
     "fileView": "list"
   },
   "terminal": {
-    "scrollback": 1000
+    "scrollback": 1000,
+    "selectionStyle": "background",
+    "ctrlVPastes": true
   },
   "lsp": {
     "servers": {
+      "css": {
+        "command": [
+          "vscode-css-language-server",
+          "--stdio"
+        ],
+        "languages": {
+          ".css": "css",
+          ".less": "less",
+          ".scss": "scss"
+        }
+      },
+      "html": {
+        "command": [
+          "vscode-html-language-server",
+          "--stdio"
+        ]
+      },
       "markdown": {
         "command": [
           "marksman",
@@ -60,7 +95,8 @@
       }
     },
     "saveOnRename": false,
-    "hoverDelay": 500
+    "hoverDelay": 500,
+    "notifyAvailability": false
   },
   "autocomplete": {
     "enabled": true,
@@ -73,5 +109,8 @@
   },
   "image": {
     "protocol": "auto"
+  },
+  "plugins": {
+    "selectionStyle": "invert"
   }
 }
