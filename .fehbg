@@ -1,3 +1,2 @@
 #!/bin/sh
-# $HOME-relative so this works on any machine (i3 execs it via xinit/feh)
-exec feh --no-fehbg --bg-fill "$HOME/Pictures/bg-newer.jpg" "$HOME/Pictures/bg-newer.jpg"
+feh --no-fehbg --bg-fill '/home/rod-desktop/.config/variety/wallpaper/wallpaper-auto-rotated-15f37fb5dcadca62efb796018895f4ee.jpg' 

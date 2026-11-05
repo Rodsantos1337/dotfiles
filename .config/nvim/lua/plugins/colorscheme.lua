@@ -1,10 +1,10 @@
--- Everforest colorscheme to match rod's desktop theme (i3/GTK/polybar).
+-- Sálvia Cinza colorscheme — fork of everforest, updated with Salvia palette.
+-- Source: after/autoload/salvia.vim + after/colors/salvia.vim
 return {
-  { "sainnhe/everforest", lazy = false, priority = 1000 },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "everforest",
+      colorscheme = "salvia",
     },
   },
 }

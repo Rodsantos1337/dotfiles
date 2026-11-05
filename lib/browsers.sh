@@ -3,43 +3,32 @@
 # lib/browsers.sh - Browser installation logic
 # Source after common.sh
 
-# Install browsers for Arch
-install_arch_browsers() {
-  log_step "installing AUR packages (browsers + icons + theme engine)"
-  # Ensure yay is available
-  if ! has_cmd yay; then
-    log_err "yay not found - run setup.sh first"
-    return 1
-  fi
-  yay -S --needed zen-browser-bin everforest-icon-theme-git gtk-engine-murrine
-}
-
-# Install browsers for Fedora
-install_fedora_browsers() {
+# Install Zen browser via COPR
+install_browsers() {
   log_step "installing third-party apps (Zen browser)"
 
   # Zen via COPR sneexy/zen-browser (repos enabled in setup.sh)
   sudo dnf install -y zen-browser || log_warn "browser install had issues - check repos"
 }
 
-# Install Tailscale (Fedora only - Arch uses package)
-install_tailscale_fedora() {
+# Install Tailscale
+install_tailscale() {
   if ! has_cmd tailscale; then
     log_info "installing Tailscale"
     curl -fsSL https://tailscale.com/install.sh | sh
   fi
 }
 
-# Install opencode (Fedora only - Arch uses package)
-install_opencode_fedora() {
+# Install opencode
+install_opencode() {
   if ! has_cmd opencode; then
     log_info "installing opencode"
     curl -fsSL https://opencode.ai/install | bash
   fi
 }
 
-# Install Nerd Fonts on Fedora (Arch has them packaged)
-install_nerd_fonts_fedora() {
+# Install Nerd Fonts via release zips
+install_nerd_fonts() {
   if ! fc-list | grep -qi 'GeistMono Nerd' || ! fc-list | grep -qi 'JetBrainsMono Nerd'; then
     log_step "installing GeistMono + JetBrainsMono Nerd Fonts"
     local tmpfonts
@@ -56,8 +45,8 @@ install_nerd_fonts_fedora() {
   fi
 }
 
-# Install Everforest icons on Fedora (Arch has AUR package)
-install_everforest_icons_fedora() {
+# Install Everforest-Dark icons
+install_everforest_icons() {
   if [[ ! -d "$HOME/.local/share/icons/Everforest-Dark" ]]; then
     log_info "installing Everforest-Dark icons"
     mkdir -p "$HOME/.local/share/icons"

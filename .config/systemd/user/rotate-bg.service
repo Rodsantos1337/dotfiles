@@ -1,0 +1,14 @@
+[Unit]
+Description=Crossfade wallpaper rotator daemon
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/bin/rotate-bg daemon
+Restart=on-failure
+RestartSec=5
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/run/lightdm/rod-desktop/xauthority
+
+[Install]
+WantedBy=default.target

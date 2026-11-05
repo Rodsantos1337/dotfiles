@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# powermenu - rofi power menu (Everforest Dim via rofi theme)
+# powermenu - rofi power menu (Salvia Dim via rofi theme)
 # Binds: $mod+Shift+e
 set -euo pipefail
 

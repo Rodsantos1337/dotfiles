@@ -1,0 +1,79 @@
+#!/bin/bash
+# fresh-vault-toggle - Toggle fresh in ~/vault as a scratchpad terminal (mod+Shift+o).
+set -u
+
+INSTANCE="fresh-vault"
+VAULT_DIR="$HOME/vault"
+
+# i3 spawns this script with a minimal PATH (no ~/.local/bin), so resolve
+# tools via absolute fallback before giving up.
+resolve_cmd() {
+    local name="$1" fallback="$2"
+    local found
+    found="$(command -v "$name" 2>/dev/null)" && { echo "$found"; return 0; }
+    if [[ -n "$fallback" && -x "$fallback" ]]; then
+        echo "$fallback"
+        return 0
+    fi
+    return 1
+}
+
+I3_MSG="$(resolve_cmd i3-msg /usr/bin/i3-msg)" || {
+    command -v notify-send >/dev/null 2>&1 && notify-send "fresh-vault" "i3-msg not found in PATH"
+    echo "fresh-vault-toggle: i3-msg not found in PATH" >&2
+    exit 1
+}
+KITTY="$(resolve_cmd kitty /usr/bin/kitty)" || {
+    command -v notify-send >/dev/null 2>&1 && notify-send "fresh-vault" "kitty not found in PATH"
+    echo "fresh-vault-toggle: kitty not found in PATH" >&2
+    exit 1
+}
+FRESH="$(resolve_cmd fresh "$HOME/.local/bin/fresh")" || {
+    command -v notify-send >/dev/null 2>&1 && notify-send "fresh-vault" "fresh not found in PATH"
+    echo "fresh-vault-toggle: fresh not found in PATH" >&2
+    exit 1
+}
+
+if [[ ! -d "$VAULT_DIR" ]]; then
+    command -v notify-send >/dev/null 2>&1 && notify-send "fresh-vault" "vault dir missing: $VAULT_DIR"
+    echo "fresh-vault-toggle: vault dir missing: $VAULT_DIR" >&2
+    exit 1
+fi
+
+tree_has_instance() {
+    # Match class OR instance: kitty --class sets the class part and
+    # defaults the instance (name) part to the same value, but matching
+    # both keeps the toggle working if either side ever changes.
+    "$I3_MSG" -t get_tree 2>/dev/null | grep -Eq "\"(class|instance)\":\"$INSTANCE\""
+}
+
+center_on_workspace() {
+    # Best-effort: re-center after showing so it follows the active workspace.
+    "$I3_MSG" "[class=\"$INSTANCE\" instance=\"$INSTANCE\"] move position center" >/dev/null 2>&1
+}
+
+if tree_has_instance; then
+    # Instance exists (visible or hidden) - toggle THAT specific window.
+    "$I3_MSG" "[class=\"$INSTANCE\" instance=\"$INSTANCE\"] scratchpad show" >/dev/null 2>&1
+    center_on_workspace
+    exit 0
+fi
+
+# Launch new instance: fresh opening the vault dir explicitly with "fresh ."
+"$KITTY" --class="$INSTANCE" --working-directory="$VAULT_DIR" -e "$FRESH" . >/dev/null 2>&1 &
+disown 2>/dev/null || true
+
+# Poll for the window instead of a blind sleep (up to ~4s).
+for _ in $(seq 1 40); do
+    tree_has_instance && break
+    sleep 0.1
+done
+
+if ! tree_has_instance; then
+    command -v notify-send >/dev/null 2>&1 && notify-send "fresh-vault" "failed to launch (see journalctl / terminal)"
+    echo "fresh-vault-toggle: window class '$INSTANCE' never appeared" >&2
+    exit 1
+fi
+
+"$I3_MSG" "[class=\"$INSTANCE\" instance=\"$INSTANCE\"] scratchpad show" >/dev/null 2>&1
+center_on_workspace

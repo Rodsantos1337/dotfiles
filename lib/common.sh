@@ -28,30 +28,6 @@ require_user() {
   fi
 }
 
-# Detect distribution
-detect_distro() {
-  if [[ -f /etc/arch-release ]]; then
-    echo "arch"
-  elif [[ -f /etc/fedora-release ]]; then
-    echo "fedora"
-  else
-    log_err "Unsupported distribution (only Arch and Fedora)"
-    exit 1
-  fi
-}
-
-# Detect machine variant (desktop/laptop) via hostname heuristic
-# Fedora hostname = desktop, else laptop (matches install.sh)
-detect_variant() {
-  local hostname
-  hostname="$(hostname)"
-  if [[ "$hostname" == fedora* ]]; then
-    echo "desktop"
-  else
-    echo "laptop"
-  fi
-}
-
 # Check if command exists
 has_cmd() { command -v "$1" >/dev/null 2>&1; }
 

@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 #
-# install.sh - restore rod's Everforest i3wm dotfiles
+# install.sh - symlink rod's Fedora i3wm dotfiles into $HOME
 #
 # Symlinks config files from this repo into $HOME. It does NOT install
-# any packages - run the arch/ or fedora/ setup script for provisioning.
+# any packages - run setup.sh for provisioning.
 #
-# Usage:  ~/dotfiles/install.sh [--desktop|--laptop] [--no-verify]
+# Usage:  ~/dotfiles/install.sh --desktop|--laptop [--no-verify]
+# The variant flag is required: it selects the i3 per-machine monitor
+# variant (~/.config/i3/local -> monitors-desktop / monitors-laptop)
+# and the matching flameshot config.
 # Idempotent: safe to re-run. Existing files are backed up first.
-# --desktop / --laptop selects the i3 per-machine monitor variant
-# (~/.config/i3/local -> monitors-desktop / monitors-laptop).
-# Default: hostname heuristic (hostname 'fedora' = desktop, else laptop).
 
 set -euo pipefail
 
@@ -27,6 +27,7 @@ MAPPINGS=(
   "wallpapers/bg.jpg:Pictures/bg.jpg"
   "wallpapers/bg-old.jpg:Pictures/bg-old.jpg"
   "wallpapers/new.jpg:Pictures/new.jpg"
+  "wallpapers/new-bg.jpg:Pictures/new-bg.jpg"
   "wallpapers/bg-newer.jpg:Pictures/bg-newer.jpg"
   ".config/i3/config"
   ".config/i3/scripts"
@@ -53,6 +54,8 @@ MAPPINGS=(
   ".config/systemd"
   ".gitconfig"
   "themes/Everforest-Green-Dark-Dim:.local/share/themes/Everforest-Green-Dark-Dim"
+  "themes/Salvia-Dim:.local/share/themes/Salvia-Dim"
+  "themes/Salvia:.local/share/themes/Salvia"
 )
 
 link_one() {
@@ -162,6 +165,8 @@ verify_links() {
     ".config/user-dirs.locale" ".config/gamemode.ini"
     ".config/systemd" ".gitconfig"
     ".local/share/themes/Everforest-Green-Dark-Dim"
+    ".local/share/themes/Salvia-Dim"
+    ".local/share/themes/Salvia"
   )
 
   local fail=0
@@ -210,7 +215,7 @@ main() {
       --laptop) variant="laptop" ;;
       --no-verify) do_verify=false ;;
       -h|--help)
-        echo "Usage: install.sh [--desktop|--laptop] [--no-verify]"
+        echo "Usage: install.sh --desktop|--laptop [--no-verify]"
         return 0
         ;;
       *)
@@ -219,15 +224,9 @@ main() {
     esac
   done
 
-  # hostname heuristic: 'fedora' is the desktop (DP-0 + HDMI-0),
-  # anything else is assumed to be the laptop (eDP-1).
   if [[ -z "$variant" ]]; then
-    if [[ "$(hostname)" == fedora* ]]; then
-      variant="desktop"
-    else
-      variant="laptop"
-    fi
-    echo "auto: monitor variant '$variant' (hostname: $(hostname))"
+    echo "Missing required flag: --desktop or --laptop" >&2
+    return 1
   fi
 
   echo "Restoring dotfiles from $DOTFILES_DIR"

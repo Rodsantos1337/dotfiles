@@ -2,15 +2,22 @@
 # ~/.bashrc
 #
 
-# --- AWWWARDS_REPO (managed) --- global for all shells/opencode, survives reboots
-export AWWWARDS_REPO="https://github.com/Rodsantos1337/min-base.git"
-
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# History (match .zshrc behavior)
+HISTFILE="$HOME/.bash_history"
+HISTSIZE=100000
+HISTFILESIZE=100000
+HISTCONTROL=ignoreboth:erasedups
+shopt -s histappend
+PROMPT_COMMAND='history -a'
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-PS1='[\u@\h \W]\$ '
+alias ll='ls -la'
+alias la='ls -A'
+PS1='\[\e[32m\]\u@\h\[\e[0m\]:\[\e[34m\]\w\[\e[0m\]\$ '
 # Add user-local binaries (yay, etc.)
 if [ -d "$HOME/.local/bin" ]; then
     case ":$PATH" in
@@ -50,9 +57,33 @@ sync-on() { systemctl --user start syncthing.service; }
 sync-off() { systemctl --user stop syncthing.service; }
 share-on() { tails-on && sync-on; }
 share-off() { tails-off; sync-off; }
-alias quillcode="$HOME/base/quillcode/quillcode-test.sh"
-alias test-quillcode="$HOME/base/quillcode/test.sh"
 
 
-# Added by Antigravity CLI installer
-export PATH="$HOME/.local/bin:$PATH"
+# npm global prefix (~/.npm-global) - matches .zshrc
+if [ -d "$HOME/.npm-global/bin" ]; then
+    case ":$PATH:" in
+        *":$HOME/.npm-global/bin:"*) ;;
+        *) PATH="$HOME/.npm-global/bin:$PATH" ;;
+    esac
+fi
+
+# bun
+if [ -d "$HOME/.bun/bin" ]; then
+    export BUN_INSTALL="$HOME/.bun"
+    case ":$PATH:" in
+        *":$HOME/.bun/bin:"*) ;;
+        *) PATH="$BUN_INSTALL/bin:$PATH" ;;
+    esac
+fi
+
+
+
+
+
+
+
+
+
+# >>> dev-manage >>>
+alias task="/home/rod-desktop/.local/bin/task"
+# <<< dev-manage <<<

@@ -11,4 +11,4 @@ configuration {
   sidebar-mode: false;
 }
 
-@theme "everforest-dim"
+@theme "salvia-dim"

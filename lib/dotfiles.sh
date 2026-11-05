@@ -40,6 +40,8 @@ verify_dotfile_links() {
     ".config/user-dirs.locale" ".config/gamemode.ini"
     ".config/systemd" ".gitconfig"
     ".local/share/themes/Everforest-Green-Dark-Dim"
+    ".local/share/themes/Salvia-Dim"
+    ".local/share/themes/Salvia"
   )
 
   local fail=0
@@ -91,29 +93,6 @@ auth_tailscale() {
   if ! sudo tailscale status >/dev/null 2>&1; then
     log_step "tailscale authentication required"
     sudo tailscale up
-  fi
-}
-
-# Dev-install quillcode (private repo, gh auth required) - canonical dir is ~/base/quillcode
-install_quillcode() {
-  local quillcode_dir="$HOME/base/quillcode"
-  if [[ ! -d "$quillcode_dir/.git" ]]; then
-    mkdir -p "$(dirname "$quillcode_dir")"
-    log_step "cloning quillcode fork"
-    if ! git clone https://github.com/Rodsantos1337/quillcode.git "$quillcode_dir"; then
-      log_warn "quillcode clone failed - skipping"
-      return 0
-    fi
-  else
-    log_info "updating quillcode fork"
-    git -C "$quillcode_dir" pull --ff-only
-  fi
-  # Install cline globally via npm
-  if has_cmd npm; then
-    log_step "installing cline globally"
-    sudo npm install -g cline
-  else
-    log_warn "npm not found - skipping cline install"
   fi
 }
 
@@ -184,13 +163,13 @@ install_marksman() {
     log_info "marksman already installed"
     return 0
   fi
-  local arch asset
+  local cpu asset
   case "$(uname -m)" in
-    x86_64) arch="x64" ;;
-    aarch64|arm64) arch="arm64" ;;
-    *) log_warn "marksman: unsupported arch $(uname -m) - skipping"; return 0 ;;
+    x86_64) cpu="x64" ;;
+    aarch64|arm64) cpu="arm64" ;;
+    *) log_warn "marksman: unsupported cpu $(uname -m) - skipping"; return 0 ;;
   esac
-  asset="marksman-linux-${arch}"
+  asset="marksman-linux-${cpu}"
   log_step "installing marksman ($asset)"
   mkdir -p "$HOME/.local/bin"
   if curl -fsSL -o "$HOME/.local/bin/marksman" \
@@ -215,6 +194,32 @@ install_opencode_deps() {
   fi
   log_step "installing opencode plugin dependencies"
   (cd "$dir" && npm install --no-audit --no-fund) || log_warn "opencode npm install failed"
+}
+
+# Install bun via the official install script (~/.bun).
+install_bun() {
+  if has_cmd bun; then
+    log_info "bun already installed - skipping"
+    return 0
+  fi
+  log_step "installing bun"
+  curl -fsSL https://bun.sh/install | bash || log_warn "bun install failed"
+}
+
+# Install the LSP servers ttt is configured to use (settings.json + plugins):
+# html/css from vscode-langservers-extracted (marksman is installed separately).
+install_ttt_lsp_servers() {
+  if has_cmd vscode-html-language-server; then
+    log_info "ttt LSP servers already installed - skipping"
+    return 0
+  fi
+  if ! has_cmd npm; then
+    log_warn "npm not found - skipping ttt LSP servers"
+    return 0
+  fi
+  log_step "installing ttt LSP servers (vscode-langservers-extracted)"
+  npm install -g --no-audit --no-fund vscode-langservers-extracted \
+    || log_warn "ttt LSP servers install failed"
 }
 
 # Privatize dotfiles repo (only on full success)

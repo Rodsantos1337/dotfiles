@@ -1,4 +1,4 @@
-# dunst config - Everforest Dark Hard (matches the i3 config palette)
+# dunst config - Salvia Dim (matches the i3 config palette)
 # See dunst(5) for all options.
 
 [global]
@@ -22,7 +22,7 @@
     horizontal_padding = 12
     text_icon_padding = 12
     frame_width = 2
-    frame_color = "#a7c080"
+    frame_color = "#a8bf9c"
     corner_radius = 4
     gap_size = 4
 
@@ -40,21 +40,23 @@
     mouse_middle_click = do_action
     mouse_right_click = close_all
 
-# Everforest Dark Hard urgency colors
+# Salvia Dim urgency colors
 # NB: colors are quoted because dunst 1.13.2's ini parser treats unquoted
 # '#' as an inline comment (regression - see ini.c load_ini_file).
 [urgency_low]
-    background = "#1e2326"
-    foreground = "#ffffff"
+    background = "#0f1010"
+    foreground = "#e4e2d8"
+    frame_color = "#272928"
     timeout = 6
 
 [urgency_normal]
-    background = "#1e2326"
-    foreground = "#ffffff"
+    background = "#0f1010"
+    foreground = "#e4e2d8"
+    frame_color = "#272928"
     timeout = 8
 
 [urgency_critical]
-    background = "#e67e80"
-    foreground = "#1e2326"
-    frame_color = "#e67e80"
+    background = "#cf6f63"
+    foreground = "#0f1010"
+    frame_color = "#cf6f63"
     timeout = 0

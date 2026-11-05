@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# power-profiles - rofi power profile switcher (Everforest Dim via rofi theme)
+# power-profiles - rofi power profile switcher (Salvia Dim via rofi theme)
 # Binds: $mod+Shift+p
 # Requires powerprofiles-daemon (extra) + python-gobject for powerprofilesctl.
 set -euo pipefail

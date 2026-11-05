@@ -1,8 +1,5 @@
 # ~/.zshrc
 
-# --- AWWWARDS_REPO (managed) ---
-export AWWWARDS_REPO="https://github.com/Rodsantos1337/min-base.git"
-
 # Enable completion system
 autoload -Uz compinit
 compinit -d "$HOME/.cache/zcompdump"
@@ -20,6 +17,17 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
 zstyle ':completion:*:warnings' format '%F{red}-- no matches --%f'
+
+# Ensure we're using emacs-style keybindings (common for this)
+bindkey -e
+
+# Bindings for Ctrl+Arrow (often sends ^[[1;5C and ^[[1;5D)
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
+
+# Bindings for Alt+Arrow (often sends ^[[1;3C and ^[[1;3D)
+bindkey '^[[1;3C' forward-word
+bindkey '^[[1;3D' backward-word
 
 # History
 HISTFILE="$HOME/.zsh_history"
@@ -43,10 +51,6 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias ll='ls -la'
 alias la='ls -A'
-
-# quillcode aliases
-alias quillcode="$HOME/base/quillcode/quillcode-test.sh"
-alias test-quillcode="$HOME/base/quillcode/test.sh"
 
 # power-savers: tailscale + syncthing manual toggles (off by default)
 tails-on() { sudo systemctl start tailscaled.service && tailscale up; }
@@ -104,5 +108,16 @@ if [ -d "$HOME/.npm-global/bin" ]; then
     esac
 fi
 
-# Added by Antigravity CLI installer
-export PATH="$HOME/.local/bin:$PATH"
+# bun
+export BUN_INSTALL="$HOME/.bun"
+if [ -d "$BUN_INSTALL/bin" ]; then
+    [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
+    case ":$PATH:" in
+        *":$BUN_INSTALL/bin:"*) ;;
+        *) PATH="$BUN_INSTALL/bin:$PATH" ;;
+    esac
+fi
+
+# >>> dev-manage >>>
+alias task="/home/rod-desktop/.local/bin/task"
+# <<< dev-manage <<<

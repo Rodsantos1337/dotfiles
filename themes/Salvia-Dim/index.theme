@@ -1,0 +1,12 @@
+Type=X-GNOME-Metatheme
+[Desktop Entry]
+Name=Salvia-Dim
+Comment=An Flat Gtk+ theme based on Elegant Design
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Salvia-Dim
+MetacityTheme=Salvia-Dim
+IconTheme=Everforest-Dark
+CursorTheme=Adwaita
+ButtonLayout=close,minimize,maximize:menu
