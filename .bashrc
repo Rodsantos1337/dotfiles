@@ -84,6 +84,3 @@ fi
 
 
 
-# >>> dev-manage >>>
-alias task="/home/rod-desktop/.local/bin/task"
-# <<< dev-manage <<<

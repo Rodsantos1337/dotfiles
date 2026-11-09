@@ -7,21 +7,84 @@ porting checklist, see [`dotfiles.md`](dotfiles.md).
 
 ## Layout
 
-- `setup.sh` — Fedora provisioning for desktop/laptop (packages, browsers,
-  services, theming, then calls `install.sh`). Requires `--desktop` or
-  `--laptop`, no auto-detection.
-- `install.sh` — symlink installer, shared by both machines (installs no
-  packages; run `setup.sh` for that). Requires `--desktop` or `--laptop`
-  for the i3 monitor + flameshot variants.
-- `lib/` — setup libraries (`common`, `packages`, `services`, `browsers`,
-  `dotfiles`, `theming`)
-- root dotfiles (machine-agnostic): `.config/`, `.bashrc`, `.zshrc`, `.fehbg`,
-  `.xprofile`, `.Xresources`, `themes/`, `wallpapers/`
-- `fedora/` — thin wrappers around `../setup.sh` (backward compat)
-- `restore-desktop.sh`, `fix-boot-i3.sh` — one-shot Fedora rescue scripts
-  (broken desktop / LightDM greeter fixes)
+```
+├── setup.sh                  # Fedora provisioning (packages, services, theming, then install.sh)
+├── install.sh                # Symlink installer (shared, no packages). Requires --desktop|--laptop
+├── lib/                      # Setup libraries
+│   ├── common.sh             # Logging, idempotent git/systemd/link helpers
+│   ├── packages.sh           # Fedora package arrays (base + laptop)
+│   ├── services.sh           # systemd, ufw, display manager, laptop services
+│   ├── browsers.sh           # Zen, Tailscale, opencode, fonts, Everforest icons
+│   ├── dotfiles.sh           # Repo sync, install.sh, verification, auth, dev tools
+│   └── theming.sh            # gsettings Salvia-Dim + PT keyboard
+├── fedora/                   # Thin wrappers for backward compat
+│   ├── install-fedora.sh
+│   └── setup-laptop-fedora.sh
+├── themes/                   # GTK/X11 themes (linked to ~/.local/share/themes/)
+│   ├── Everforest-Green-Dark-Dim/
+│   ├── Salvia/
+│   └── Salvia-Dim/
+├── wallpapers/               # Backgrounds (linked to ~/Pictures/)
+├── .config/                  # Machine-agnostic configs (symlinked to ~/.config/)
+│   ├── alacritty/
+│   ├── disable-mouse-accel.sh
+│   ├── dunst/
+│   ├── flameshot/            # flameshot-desktop.ini, flameshot-laptop.ini
+│   ├── fontconfig/
+│   ├── gamemode.ini
+│   ├── gtk-3.0/
+│   ├── gtk-4.0/
+│   ├── i3/
+│   │   ├── config
+│   │   ├── monitors-desktop   # linked as ~/.config/i3/local on desktop
+│   │   ├── monitors-laptop    # linked as ~/.config/i3/local on laptop
+│   │   └── scripts/           # 12 utility scripts (see below)
+│   ├── kitty/
+│   ├── mimeapps.list
+│   ├── nvim/
+│   ├── opencode/
+│   ├── picom/
+│   ├── polybar/
+│   ├── qutebrowser/
+│   ├── rofi/
+│   ├── systemd/
+│   ├── ttt/
+│   ├── user-dirs.dirs
+│   ├── user-dirs.locale
+│   ├── xsettingsd/
+│   └── zed/
+├── .bashrc
+├── .zshrc
+├── .fehbg
+├── .xprofile
+├── .Xresources
+├── .gitconfig
+├── .gitignore
+├── .freebuff/
+├── salvia.md                 # Salvia theme reference
+├── salvia-dim.md             # Salvia-Dim theme reference
+├── everforest-green-dark-dim.md  # Everforest theme reference
+└── dotfiles.md               # Full architecture doc
+```
 
-## Fresh machine
+### `.config/i3/scripts/` (12 scripts)
+
+| Script | Purpose |
+|--------|---------|
+| `battery` | Battery status for polybar |
+| `brightness` | Brightness control (up/down/get) |
+| `fresh-vault-toggle` | Toggle Obsidian fresh vault |
+| `gaming-toggle` | Gaming mode (disables compositor, etc.) |
+| `obsidian-toggle2` | Toggle Obsidian window |
+| `power-profiles` | Switch power profile (balanced/performance/power-saver) |
+| `powermenu` | Rofi-based power menu (lock/suspend/hibernate/reboot/shutdown) |
+| `pp-indicator` | Power profile indicator for polybar |
+| `refresh-toggle` | Toggle monitor refresh rate |
+| `ttt-toggle` | Toggle ttt (terminal-tui-timer) |
+| `ttt-vault-toggle` | Toggle ttt vault |
+| `volume` | Volume control (up/down/mute/get) |
+
+## Fresh Machine
 
 ```sh
 git clone https://github.com/Rodsantos1337/dotfiles.git ~/dotfiles
@@ -37,10 +100,12 @@ Symlinks only (no packages):
 ```
 
 Setup is idempotent; re-running is safe. The i3 monitor variant follows the
-same flag (`~/.config/i3/local -> monitors-<variant>`). The repo must be
-public before a fresh box can clone it. The repo stays public by default;
-add `--privatize` to flip it back to private at the end.
+same flag (`~/.config/i3/local -> monitors-<variant>`). Flameshot config is
+also variant-specific (`~/.config/flameshot/flameshot.ini -> flameshot-<variant>.ini`).
+The repo must be public before a fresh box can clone it. The repo stays public
+by default; add `--privatize` to flip it back to private at the end.
 
-Sensible Defaults:
-Alt + Left/Right Arrow: Move cursor by one word.
-Ctrl + Left/Right Arrow: Move cursor to the beginning/end of the line.
+## Sensible Defaults
+
+- **Alt + Left/Right Arrow**: Move cursor by one word
+- **Ctrl + Left/Right Arrow**: Move cursor to beginning/end of line

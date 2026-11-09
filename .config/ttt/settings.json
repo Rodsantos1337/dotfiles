@@ -7,7 +7,8 @@
       "chevron-down": "-",
       "chevron-right": "+"
     },
-    "scrollbarGlyphs": "blocks"
+    "scrollbarGlyphs": "blocks",
+    "pointerShapes": true
   },
   "editor": {
     "autoClosing": {
@@ -58,7 +59,11 @@
     "showGitIgnored": true,
     "gitStatusColors": true,
     "dimStagedGitColors": false,
-    "autoReveal": false
+    "autoReveal": false,
+    "compactFolders": true
+  },
+  "sidebar": {
+    "tabStyle": "label"
   },
   "git": {
     "fileView": "list"
@@ -66,7 +71,8 @@
   "terminal": {
     "scrollback": 1000,
     "selectionStyle": "background",
-    "ctrlVPastes": true
+    "ctrlVPastes": true,
+    "padding_x": 1
   },
   "lsp": {
     "servers": {
@@ -80,6 +86,11 @@
           ".less": "less",
           ".scss": "scss"
         }
+      },
+      "go": {
+        "command": [
+          "gopls"
+        ]
       },
       "html": {
         "command": [
@@ -112,5 +123,9 @@
   },
   "plugins": {
     "selectionStyle": "invert"
+  },
+  "formatters": {
+    "bash": "shfmt",
+    "sh": "shfmt"
   }
 }

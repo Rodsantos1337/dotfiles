@@ -1,0 +1,19 @@
+{
+  "name": "tab-complete",
+  "displayName": "Tab Complete",
+  "description": "Cursor-style inline completions from a local OpenAI-compatible model (LM Studio, Ollama, llama.cpp).",
+  "version": "0.1.0",
+  "author": "fork tweak",
+  "entry": "init.lua",
+  "api": 1,
+  "permissions": {
+    "commands": true,
+    "editor.read": true,
+    "editor.write": true,
+    "editor.decorations": true,
+    "events.editor": true,
+    "keybindings": true,
+    "network.http": ["127.0.0.1:1234", "localhost:1234", "127.0.0.1:11434", "localhost:11434"],
+    "storage": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "lsp-go",
+  "displayName": "Go Language Server",
+  "description": "Auto-configure gopls as the Go language server",
+  "version": "0.1.0",
+  "author": "eugenioenko",
+  "entry": "plugin.lua",
+  "api": 1,
+  "permissions": {
+    "settings": true,
+    "settings_keys": ["lsp.*"]
+  }
+}

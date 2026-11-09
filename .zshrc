@@ -118,6 +118,3 @@ if [ -d "$BUN_INSTALL/bin" ]; then
     esac
 fi
 
-# >>> dev-manage >>>
-alias task="/home/rod-desktop/.local/bin/task"
-# <<< dev-manage <<<
