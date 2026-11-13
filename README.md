@@ -105,6 +105,41 @@ also variant-specific (`~/.config/flameshot/flameshot.ini -> flameshot-<variant>
 The repo must be public before a fresh box can clone it. The repo stays public
 by default; add `--privatize` to flip it back to private at the end.
 
+## Portable bootstrap binary
+
+`bootstrap/` is a Go program that performs the whole setup - packages,
+accounts, symlinks, theming, services - behind a TUI, so a fresh machine needs
+one file instead of a shell checkout.
+
+Build a static binary for the pendrive:
+
+```sh
+cd bootstrap
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath \
+  -ldflags "-s -w -X main.commit=$(git rev-parse --short HEAD)" \
+  -o bin/bootstrap .
+```
+
+Then, from the pendrive:
+
+```sh
+./bootstrap                    # TUI: pick desktop/laptop, pick steps, watch progress
+./bootstrap plan               # every step, what it does, whether it is selected
+./bootstrap apply --laptop     # unattended run
+./bootstrap apply --dry-run    # print the commands, change nothing
+./bootstrap link --desktop     # symlinks only (same result as install.sh)
+./bootstrap verify             # check that the symlinks are in place
+```
+
+Flags: `--variant`, `--groups`, `--only`, `--exclude`, `--dotfiles-dir`,
+`--upgrade` (full `dnf upgrade`, off by default) and `--privatize`.
+
+Every step checks whether its work is already done, so re-running is safe.
+Interactive steps (GitHub device login, `tailscale up`) hand the terminal back
+to you. Each run logs to
+`~/.local/state/dotfiles-bootstrap/run-<timestamp>.log`. `setup.sh` and
+`install.sh` keep working on their own; the binary is additive.
+
 ## Sensible Defaults
 
 - **Alt + Left/Right Arrow**: Move cursor by one word

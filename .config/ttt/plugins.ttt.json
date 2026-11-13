@@ -157,5 +157,21 @@
       ]
     },
     "grantsVersion": 2
+  },
+  {
+    "name": "lsp-typescript",
+    "displayName": "TypeScript Language Server",
+    "repo": "https://github.com/eugenioenko/ttt-plugins",
+    "path": "lsp-typescript",
+    "version": "0.1.0",
+    "enabled": true,
+    "permissions": {
+      "network.http": false,
+      "settings": true,
+      "settings_keys": [
+        "lsp.*"
+      ]
+    },
+    "grantsVersion": 2
   }
 ]

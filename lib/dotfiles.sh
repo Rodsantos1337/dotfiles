@@ -118,7 +118,7 @@ install_ttt() {
 
 # Dev-install llmserve (custom project)
 install_llmserve() {
-  local llmserve_dir="$HOME/base/llmserve"
+  local llmserve_dir="$HOME/projects/llmserve"
   if [[ ! -d "$llmserve_dir/.git" ]]; then
     mkdir -p "$(dirname "$llmserve_dir")"
     log_step "cloning llmserve"

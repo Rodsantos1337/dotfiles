@@ -24,5 +24,8 @@ node_modules/
 # stray setup.sh / pacman output
 log.log
 
+# built bootstrap binary (build it locally / copy to a pendrive)
+bootstrap/bin/
+
 # syncthing: device keys/config are per-machine, never commit
 .config/syncthing/

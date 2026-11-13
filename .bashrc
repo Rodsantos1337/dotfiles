@@ -37,6 +37,14 @@ export TERMINAL=kitty
 export EDITOR="ttt"
 export VISUAL="ttt"
 
+# cargo
+if [ -d "$HOME/.cargo/bin" ]; then
+    case ":$PATH" in
+        *":$HOME/.cargo/bin:"*) ;;
+        *) PATH="$HOME/.cargo/bin:$PATH" ;;
+    esac
+fi
+
 # zoxide: smart `z <fragment>` jumps (frecency-ranked)
 if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init bash)"

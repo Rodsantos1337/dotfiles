@@ -103,6 +103,22 @@
           "marksman",
           "server"
         ]
+      },
+      "typescript": {
+        "command": [
+          "typescript-language-server",
+          "--stdio"
+        ],
+        "languages": {
+          ".cjs": "javascript",
+          ".cts": "typescript",
+          ".js": "javascript",
+          ".jsx": "javascriptreact",
+          ".mjs": "javascript",
+          ".mts": "typescript",
+          ".ts": "typescript",
+          ".tsx": "typescriptreact"
+        }
       }
     },
     "saveOnRename": false,

@@ -20,7 +20,7 @@ enable_common_services() {
 
   sysctl_user_enable_now syncthing.service
   sudo loginctl enable-linger "$USER"
-  mkdir -p "$HOME/vault" "$HOME/base/ACI/screenshots"
+  mkdir -p "$HOME/vault" "$HOME/projects/ACI/screenshots"
   log_info "syncthing web UI: http://localhost:8384 (add phone, share ~/vault)"
 }
 

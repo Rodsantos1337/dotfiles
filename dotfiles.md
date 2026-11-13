@@ -97,7 +97,7 @@ Useful flags:
 | Laptop packages | none | `thermald`, `powertop`, `acpi` |
 | Firewall | ufw, firewalld disabled | ufw, firewalld disabled |
 | Monitor layout | DP-0 + HDMI-0 | eDP-1 144Hz |
-| Flameshot path | `/home/rod-desktop/base/ACI/screenshots` | `/home/rod/base/ACI/screenshots` |
+| Flameshot path | `/home/rod-desktop/projects/ACI/screenshots` | `/home/rod/projects/ACI/screenshots` |
 
 The fedora wrappers are compatibility shims:
 
@@ -306,7 +306,7 @@ Third-party dnf package: `zen-browser` from COPR `sneexy/zen-browser`.
 | Everforest icons | Arch AUR; Fedora clone `ItzSelenux/everforest-icon-theme` into `~/.local/share/icons` |
 | ttt | Official install script into `~/.local/bin` |
 | marksman | Upstream release binary into `~/.local/bin` |
-| llmserve | Clone `Rodsantos1337/llmserve` into `~/base/llmserve`, run its setup/install if present |
+| llmserve | Clone `Rodsantos1337/llmserve` into `~/projects/llmserve`, run its setup/install if present |
 | opencode plugins | `npm install` in `~/.config/opencode` from tracked `package.json` |
 
 Notes:
@@ -329,7 +329,7 @@ Notes:
 | Firewall | `ufw` enabled; tailnet allowed in on `tailscale0` |
 | Tailscale | `tailscaled` enabled; `tailscale up` if not already joined |
 | Syncthing | User unit `syncthing.service` enabled; lingering enabled for the user |
-| Vault | Creates `~/vault` and `~/base/ACI/screenshots` |
+| Vault | Creates `~/vault` and `~/projects/ACI/screenshots` |
 | Shell | Sets login shell to `zsh` when installed |
 | Keyboard | `localectl set-keymap pt-latin1`, `localectl set-x11-keymap pt` |
 | GTK | Applies Everforest GTK theme, icons, dark color scheme, cursor size 14, flat mouse/touchpad |
@@ -614,14 +614,14 @@ Machine-specific paths:
 
 | Item | Desktop | Laptop |
 | --- | --- | --- |
-| Flameshot save path | `/home/rod-desktop/base/ACI/screenshots` | `/home/rod/base/ACI/screenshots` |
+| Flameshot save path | `/home/rod-desktop/projects/ACI/screenshots` | `/home/rod/projects/ACI/screenshots` |
 | i3 monitor link | `monitors-desktop` | `monitors-laptop` |
 
 Shared runtime paths created or assumed:
 
 - `~/vault` for notes and scratchpad tools
-- `~/base/ACI/screenshots` for Flameshot
-- `~/base/llmserve` for llmserve
+- `~/projects/ACI/screenshots` for Flameshot
+- `~/projects/llmserve` for llmserve
 - `~/.local/bin` for ttt, marksman, and fresh
 - `~/.local/share/themes/` (`Everforest-Green-Dark-Dim`, `Salvia-Dim`, `Salvia`)
 - `~/.local/share/icons/Everforest-Dark`
@@ -653,8 +653,8 @@ Hardcoded home paths to change when porting:
 | `.config/opencode/tui.json` | `file:///home/rod-desktop/.config/opencode/...` |
 | `.config/opencode/tui.jsonc` | `file:///home/rod-desktop/.config/opencode/...` |
 | `.config/gamemode.ini` | `/home/rod-desktop/.config/picom/picom.conf` |
-| `.config/flameshot/flameshot-desktop.ini` | `/home/rod-desktop/base/ACI/screenshots` |
-| `.config/flameshot/flameshot-laptop.ini` | `/home/rod/base/ACI/screenshots` |
+| `.config/flameshot/flameshot-desktop.ini` | `/home/rod-desktop/projects/ACI/screenshots` |
+| `.config/flameshot/flameshot-laptop.ini` | `/home/rod/projects/ACI/screenshots` |
 
 The install-time stale-path check only covers `.config/i3`, `.config/polybar`,
 `.config/kitty`, and `.fehbg`. It will not catch the other entries above.
@@ -672,8 +672,8 @@ The install-time stale-path check only covers `.config/i3`, `.config/polybar`,
 8. Replace hardcoded `/home/...` paths listed in section 12.
 9. Change the keyboard layout in `lib/theming.sh`, `.xprofile`, and
    `.config/i3/config` if not using PT.
-10. Adjust `~/vault`, `~/base/ACI/screenshots`, and
-    `~/base/llmserve` assumptions if the target layout differs.
+10. Adjust `~/vault`, `~/projects/ACI/screenshots`, and
+    `~/projects/llmserve` assumptions if the target layout differs.
 11. Install manually anything the package lists do not cover:
     `vscode-html-language-server`, `fresh`, and any other missing apps.
 12. Run the auth steps: `gh auth login`, `opencode auth`, `sudo tailscale up`,
